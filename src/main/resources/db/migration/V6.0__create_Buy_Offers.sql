@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS "Buy_Offers" CASCADE;
+DROP TABLE IF EXISTS "buy_offers" CASCADE;
 
-CREATE TABLE "Buy_Offers" (
-  "ID" int PRIMARY KEY,
-  "resource_id" int NOT NULL,
-  "amount" int NOT NULL,
-  "max_price" numeric(10,4) NOT NULL,
-  "date" timestamp NOT NULL,
+CREATE TABLE "buy_offers" (
+  "id" SERIAL PRIMARY KEY,
+  "resource_id" SERIAL NOT NULL,
+  "amount" SERIAL NOT NULL,
+  "max_price" Float8 NOT NULL,
+  "date" TIMESTAMP WITH TIME ZONE NOT NULL,
   "is_valid" boolean NOT NULL
 );

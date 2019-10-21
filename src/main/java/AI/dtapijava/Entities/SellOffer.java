@@ -1,8 +1,6 @@
 package AI.dtapijava.Entities;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -11,7 +9,9 @@ import java.time.OffsetDateTime;
 @Setter
 @Entity
 @Builder
-@Table(schema = "public", name = "Sell_Offers")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(schema = "public", name = "sell_offers")
 public class SellOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

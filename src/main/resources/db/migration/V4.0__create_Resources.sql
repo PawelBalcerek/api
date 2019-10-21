@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS "Resources" CASCADE;
+DROP TABLE IF EXISTS resources CASCADE;
 
-CREATE TABLE "Resources" (
-  "ID" int PRIMARY KEY,
-  "user_id" int NOT NULL,
-  "comp_id" int NOT NULL,
-  "amount" int NOT NULL
+CREATE TABLE resources (
+  "id" SERIAL PRIMARY KEY,
+  "user_id" SERIAL NOT NULL,
+  "comp_id" SERIAL NOT NULL,
+  "amount" SERIAL NOT NULL
 );

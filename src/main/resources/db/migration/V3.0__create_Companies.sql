@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS "Companies" CASCADE;
+DROP TABLE IF EXISTS companies CASCADE;
 
-CREATE TABLE "Companies" (
-  "ID" int PRIMARY KEY,
-  "name" varchar NOT NULL
+CREATE TABLE companies (
+  "id" SERIAL PRIMARY KEY,
+  "name" varchar(255) NOT NULL
 );

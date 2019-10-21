@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS "Transaction" CASCADE;
+DROP TABLE IF EXISTS "transactions" CASCADE;
 
-CREATE TABLE "Transaction" (
-  "ID" int PRIMARY KEY,
-  "sell_offer_id" int NOT NULL,
-  "buy_offer_id" int NOT NULL,
-  "date" timestamp NOT NULL,
-  "amount" int NOT NULL,
-  "price" numeric(10,4) NOT NULL
+CREATE TABLE "transactions" (
+  "id" SERIAL PRIMARY KEY,
+  "sell_offer_id" SERIAL NOT NULL,
+  "buy_offer_id" SERIAL NOT NULL,
+  "date" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "amount" SERIAL NOT NULL,
+  "price" Float8  NOT NULL
 );

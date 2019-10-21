@@ -1,9 +1,7 @@
 package AI.dtapijava.Entities;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,7 +9,9 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Builder
-@Table(schema = "public", name = "Companies")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(schema = "public", name = "companies")
 public class Company {
 
     @Id

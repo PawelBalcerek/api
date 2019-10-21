@@ -11,20 +11,22 @@ import javax.validation.constraints.Email;
 @Setter
 @Entity
 @Builder
-@Table(schema = "public", name = "Users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(schema = "public", name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Integer ID;
+    @Column(unique = true,name="ID", nullable = false)
+    private Integer id;
 
     @Column(nullable = false)
-    private Boolean name;
+    private String name;
 
     @Column(nullable = false)
     @Email
-    private Boolean email;
+    private String email;
 
     @Column(length = 255)
     private String password;
