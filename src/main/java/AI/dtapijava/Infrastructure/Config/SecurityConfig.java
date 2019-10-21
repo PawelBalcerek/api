@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                
                 //TODO tmp permit all
                 .anyRequest().permitAll();
 
