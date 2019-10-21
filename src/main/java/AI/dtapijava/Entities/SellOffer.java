@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,4 +37,8 @@ public class SellOffer {
 
     @Column(nullable = false, name = "start_amount")
     private Integer startAmount;
+
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "sellOffer")
+    private List<Transaction> transactions;
+
 }

@@ -1,6 +1,7 @@
 package AI.dtapijava.Controllers;
 
 
+import AI.dtapijava.Repositories.CompanyRepository;
 import AI.dtapijava.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,17 @@ public class TestController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CompanyRepository companyRepository;
+
     @GetMapping("/test")
     public ResponseEntity<String> test(){
         return ResponseEntity.ok("Hello World!");
+    }
+
+    @GetMapping("/test2")
+    public ResponseEntity<?> test2(){
+        return ResponseEntity.ok(companyRepository.findAll());
     }
 
 }

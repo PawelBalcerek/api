@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,4 +34,7 @@ public class BuyOffer {
 
     @Column(nullable = false, name = "is_valid")
     private Boolean isValid;
+
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "buyOffer")
+    private List<Transaction> transactions;
 }

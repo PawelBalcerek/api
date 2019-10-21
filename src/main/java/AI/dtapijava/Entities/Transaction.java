@@ -21,11 +21,11 @@ public class Transaction {
 
     @ManyToOne(targetEntity = SellOffer.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "sell_offer_id")
-    private SellOffer sell_offer;
+    private SellOffer sellOffer;
 
     @ManyToOne(targetEntity = BuyOffer.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "buy_offer_id")
-    private BuyOffer buy_offer;
+    private BuyOffer buyOffer;
 
     @Column(nullable = false)
     private OffsetDateTime date;

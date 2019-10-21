@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +31,9 @@ public class User {
 
     @Column(length = 255)
     private String password;
+
+    @OneToOne(targetEntity = Company.class, mappedBy = "user", optional = true)
+    private Company company;
+
 
 }

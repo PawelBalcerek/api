@@ -4,6 +4,7 @@ package AI.dtapijava.Entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,8 +27,12 @@ public class Resource {
     @ManyToOne (targetEntity = Company.class, fetch = FetchType.EAGER)
     @JoinColumn (name = "comp_id", nullable = false)
     private Company comp;
-   
 
+    @OneToMany(targetEntity = SellOffer.class, mappedBy = "resource")
+    private List<SellOffer> sellOffers;
+
+    @OneToMany(targetEntity = BuyOffer.class, mappedBy = "resource")
+    private List<BuyOffer> buyOffers;
 
     @Column(nullable = false)
     private Integer amount;

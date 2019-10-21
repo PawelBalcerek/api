@@ -21,4 +21,12 @@ public class Company {
 
     @Column(length = 255)
     private String name;
+
+    @OneToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+
+
+
 }

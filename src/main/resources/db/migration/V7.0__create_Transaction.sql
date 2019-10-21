@@ -5,6 +5,6 @@ CREATE TABLE "transactions" (
   "sell_offer_id" SERIAL NOT NULL,
   "buy_offer_id" SERIAL NOT NULL,
   "date" TIMESTAMP WITH TIME ZONE NOT NULL,
-  "amount" SERIAL NOT NULL,
+  "amount" INT NOT NULL,
   "price" Float8  NOT NULL
 );
