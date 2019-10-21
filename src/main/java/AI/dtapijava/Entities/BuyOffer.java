@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -26,10 +26,10 @@ public class BuyOffer {
     private Integer amount;
 
     @Column(nullable = false, name = "max_price")
-    private double maxPrice;
+    private Double maxPrice;
 
     @Column(nullable = false)
-    private Date date;
+    private OffsetDateTime date;
 
     @Column(nullable = false, name = "is_valid")
     private Boolean isValid;
