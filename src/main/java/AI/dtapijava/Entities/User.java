@@ -31,9 +31,4 @@ public class User {
 
     @Column(length = 255)
     private String password;
-
-    @OneToOne(targetEntity = Company.class, mappedBy = "user", optional = true)
-    private Company company;
-
-
 }

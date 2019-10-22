@@ -9,5 +9,3 @@ ALTER TABLE "buy_offers" ADD FOREIGN KEY ("resource_id") REFERENCES resources (i
 ALTER TABLE "transactions" ADD FOREIGN KEY ("sell_offer_id") REFERENCES "sell_offers" (id);
 
 ALTER TABLE "transactions" ADD FOREIGN KEY ("buy_offer_id") REFERENCES "buy_offers" (id);
-
-ALTER TABLE companies ADD FOREIGN KEY ("user_id") REFERENCES users (id);

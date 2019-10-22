@@ -37,4 +37,7 @@ public class BuyOffer {
 
     @OneToMany(targetEntity = Transaction.class, mappedBy = "buyOffer")
     private List<Transaction> transactions;
+
+    @Column(nullable = false, name = "start_amount")
+    private Integer startAmount;
 }
