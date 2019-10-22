@@ -31,4 +31,9 @@ public class User {
 
     @Column(length = 255)
     private String password;
+
+    @OneToMany(targetEntity = Resource.class, mappedBy = "user")
+    private List<Resource> resources;
+
+
 }

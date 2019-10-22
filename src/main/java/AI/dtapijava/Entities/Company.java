@@ -4,6 +4,7 @@ package AI.dtapijava.Entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,4 +22,8 @@ public class Company {
 
     @Column(length = 255)
     private String name;
+
+    @OneToMany(targetEntity = Resource.class, mappedBy = "company")
+    private List<Resource> resources;
+
 }

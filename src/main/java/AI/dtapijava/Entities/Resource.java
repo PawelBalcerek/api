@@ -26,7 +26,8 @@ public class Resource {
 
     @ManyToOne (targetEntity = Company.class, fetch = FetchType.EAGER)
     @JoinColumn (name = "comp_id", nullable = false)
-    private Company comp;
+    private Company company;
+
 
     @OneToMany(targetEntity = SellOffer.class, mappedBy = "resource")
     private List<SellOffer> sellOffers;
