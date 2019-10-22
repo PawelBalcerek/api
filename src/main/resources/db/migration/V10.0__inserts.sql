@@ -1,5 +1,5 @@
-INSERT INTO users (name, email, password)
-VALUES('szymon961113','szymon961113@gmail.com', '$2a$10$70l0F1jKAKoZt9avkuNNUuBQsVp5aYdL3zyUShkjiizQ4Uwg9l8/y');
+INSERT INTO users (name, email, password, cash)
+VALUES('szymon961113','szymon961113@gmail.com', '$2a$10$70l0F1jKAKoZt9avkuNNUuBQsVp5aYdL3zyUShkjiizQ4Uwg9l8/y', 50000);
 
 INSERT INTO companies(name)
 VALUES('company 1');
@@ -18,3 +18,7 @@ INSERT INTO buy_offers(
 INSERT INTO public.transactions(
 	sell_offer_id, buy_offer_id, date, amount, price)
 	VALUES (1, 1, current_timestamp, 424, 535.7);
+
+INSERT INTO public.configurations(
+	name, number)
+	VALUES ('Konfiguracja pierwsza', 1);

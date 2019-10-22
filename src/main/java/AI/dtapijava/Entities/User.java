@@ -32,6 +32,9 @@ public class User {
     @Column(length = 255)
     private String password;
 
+    @Column(nullable = false)
+    private Double cash;
+
     @OneToMany(targetEntity = Resource.class, mappedBy = "user")
     private List<Resource> resources;
 
