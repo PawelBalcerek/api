@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS configurations CASCADE;
 
 CREATE TABLE configurations (
-  "id" SERIAL PRIMARY KEY,
-  "name" varchar(255) UNIQUE NOT NULL,
+  "name" varchar(255) PRIMARY KEY,
   "number" INT NOT NULL
 );

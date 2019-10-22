@@ -14,10 +14,6 @@ import javax.persistence.*;
 public class Configuration {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Integer ID;
-
     @Column(length = 255, unique = true, nullable = false)
     private String name;
 
