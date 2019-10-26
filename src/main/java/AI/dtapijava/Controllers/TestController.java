@@ -36,7 +36,8 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<String> test(){
-        return ResponseEntity.ok("Hello World!");
+        return ResponseEntity.ok(
+                "If you see this, you have valid JWT token");
     }
 
     @GetMapping("/test/user")
