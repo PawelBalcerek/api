@@ -14,18 +14,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class CompanyController {
+
+
     @Autowired
     private CompanyService companyService;
 
     @PostMapping("/companies")
-    public ResponseEntity<?> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO) {
-        try {
+    public ResponseEntity<Void> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO){
+
             companyService.createCompany(companyCreateReqDTO);
             return ResponseEntity.ok().build();
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+
 
     }
 

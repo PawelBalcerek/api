@@ -8,10 +8,12 @@ import AI.dtapijava.Repositories.CompanyRepository;
 import AI.dtapijava.Repositories.ResourceRepository;
 import AI.dtapijava.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
@@ -20,23 +22,20 @@ public class CompanyService {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public boolean createCompany(CompanyCreateReqDTO companyCreateReqDTO) throws Exception {
-        Optional<User> owner = Optional.of(userRepository.getOne(companyCreateReqDTO.getUserId()));
-        if (!owner.isPresent()) {
-            throw new Exception("Specified owner does not exist");
+    public void createCompany(CompanyCreateReqDTO companyCreateReqDTO){
+        Optional<User> owner = userRepository.findById(companyCreateReqDTO.getUserId());
+        if (owner.isPresent()) {
+            Company company = new Company();
+            company.setName(companyCreateReqDTO.getName());
+            companyRepository.save(company);
+
+            Resource resource = new Resource();
+            resource.setCompany(company);
+            resource.setAmount(companyCreateReqDTO.getResourcesAmount());
+            resource.setUser(owner.get());
+            resourceRepository.save(resource);
         }
 
-        Company company = new Company();
-        company.setName(companyCreateReqDTO.getName());
-        companyRepository.save(company);
-
-        Resource resource = new Resource();
-        resource.setCompany(company);
-        resource.setAmount(companyCreateReqDTO.getResourcesAmount());
-        resource.setUser(owner.get());
-        resourceRepository.save(resource);
-
-        return false;
     }
 
     public Company getCompany(int id) {

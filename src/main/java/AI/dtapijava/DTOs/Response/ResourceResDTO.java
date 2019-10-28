@@ -13,7 +13,7 @@ import lombok.Setter;
 public class ResourceResDTO {
 
     private UserResDTO userDTO;
-    //private CompanyResDTO companyDTO;
+    private CompanyResDTO companyDTO;
     private Integer amount;
 
     public ResourceResDTO(Resource resource){
