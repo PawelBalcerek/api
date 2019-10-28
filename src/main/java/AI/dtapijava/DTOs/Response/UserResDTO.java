@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResDTO {
+
     private String name;
     private String email;
     private Double cash;

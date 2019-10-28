@@ -28,7 +28,6 @@ public class Resource {
     @JoinColumn (name = "comp_id", nullable = false)
     private Company company;
 
-
     @OneToMany(targetEntity = SellOffer.class, mappedBy = "resource")
     private List<SellOffer> sellOffers;
 

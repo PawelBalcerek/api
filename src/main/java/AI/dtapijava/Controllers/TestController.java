@@ -1,6 +1,7 @@
 package AI.dtapijava.Controllers;
 
 
+import AI.dtapijava.DTOs.Response.ResourceResDTO;
 import AI.dtapijava.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -51,7 +54,7 @@ public class TestController {
     }
     @GetMapping("/test/resource")
     public ResponseEntity<?> testResource(){
-        return ResponseEntity.ok(resourceRepository.findAll());
+        return ResponseEntity.ok(resourceRepository.getAllResourcesFromUser(1).stream().map(ResourceResDTO::new).collect(Collectors.toList()));
     }
     @GetMapping("/test/sellOffer")
     public ResponseEntity<?> testSellOffer(){
