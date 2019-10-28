@@ -27,17 +27,10 @@ public class BuyOfferController {
 
     }
     @GetMapping("/buyOffers/{valid}")
-    public  ResponseEntity<List<BuyOfferResDTO>> getBuyOffers (@PathVariable String valid) {
-        switch (valid) {
-
-            case "valid":
-                return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.TRUE).stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
-            case "unvalid":
-                return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.FALSE).stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
-            default:
-                return ResponseEntity.ok(buyOfferService.getBuyOffers().stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
-        }
-
+    public  ResponseEntity<List<BuyOfferResDTO>> getBuyOffers (@PathVariable Boolean valid) {
+        if (valid.equals(true)) return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.TRUE).stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
+        else if (valid.equals(false)) return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.FALSE).stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
+        else return ResponseEntity.ok(buyOfferService.getBuyOffers().stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
     }
 
 }
