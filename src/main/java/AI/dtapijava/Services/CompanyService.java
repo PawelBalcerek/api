@@ -4,6 +4,7 @@ import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Repositories.CompanyRepository;
 import AI.dtapijava.Repositories.ResourceRepository;
 import AI.dtapijava.Repositories.UserRepository;
@@ -23,18 +24,18 @@ public class CompanyService {
     private ResourceRepository resourceRepository;
 
     public void createCompany(CompanyCreateReqDTO companyCreateReqDTO){
-        Optional<User> owner = userRepository.findById(companyCreateReqDTO.getUserId());
-        if (owner.isPresent()) {
+        //jeśli zwraca optional, to moge dac .orElse() lub .orElseThrow()
+        User owner = userRepository.findById(companyCreateReqDTO.getUserId())
+                //jezeli nie znajdzie rzucam wyjatek
+                .orElseThrow(()-> new UserNotFoundExceptions("User not found!"));
+
             Company company = new Company();
             company.setName(companyCreateReqDTO.getName());
-            companyRepository.save(company);
-
-            Resource resource = new Resource();
-            resource.setCompany(company);
-            resource.setAmount(companyCreateReqDTO.getResourcesAmount());
-            resource.setUser(owner.get());
+            //obiekt entity mozna tez zbudowac builder'em (lombok)
+            Resource resource = Resource.builder().company(company).amount(companyCreateReqDTO.getResourcesAmount())
+                                .user(owner).build();
+            //jednym strzalem do bazy zapisuje w dwoch tabelach (trzeba ustawic odpowiednia kaskade - w tym przypadku PERSIST)
             resourceRepository.save(resource);
-        }
 
     }
 

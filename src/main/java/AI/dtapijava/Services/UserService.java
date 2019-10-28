@@ -2,6 +2,7 @@ package AI.dtapijava.Services;
 
 
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +17,8 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getUser(int id) {
-        return userRepository.getOne(id);
+        return userRepository.findById(id)
+                .orElseThrow(()-> new UserNotFoundExceptions("User not found!"));
     }
 
     public List<User> getUsers() {

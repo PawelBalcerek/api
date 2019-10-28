@@ -15,17 +15,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class CompanyController {
 
-
     @Autowired
     private CompanyService companyService;
 
     @PostMapping("/companies")
     public ResponseEntity<Void> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO){
-
             companyService.createCompany(companyCreateReqDTO);
             return ResponseEntity.ok().build();
-
-
     }
 
     @GetMapping("/companies/{id}")

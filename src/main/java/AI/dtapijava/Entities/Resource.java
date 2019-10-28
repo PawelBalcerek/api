@@ -24,7 +24,7 @@ public class Resource {
     @JoinColumn (name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne (targetEntity = Company.class, fetch = FetchType.EAGER)
+    @ManyToOne (targetEntity = Company.class, fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn (name = "comp_id", nullable = false)
     private Company company;
 
