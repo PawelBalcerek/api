@@ -24,18 +24,18 @@ public class BuyOfferController {
     @GetMapping("/buyOffer/{id}")
     public ResponseEntity<BuyOfferResDTO> getBuyOffer (@PathVariable int id) {
         return ResponseEntity.ok(new BuyOfferResDTO(buyOfferService.getBuyOffer(id)));
-
     }
+
     @GetMapping("/buyOffers/isValid")
     public  ResponseEntity<List<BuyOfferResDTO>> getBuyOffersValid (@PathVariable Boolean valid) {
         return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.TRUE).stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
-
     }
 
     @GetMapping("/buyOffers/isNotValid")
     public  ResponseEntity<List<BuyOfferResDTO>> getBuyOffersNotValid (@PathVariable Boolean valid) {
         return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.FALSE).stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
     }
+
     @GetMapping("/buyOffers/")
     public  ResponseEntity<List<BuyOfferResDTO>> getBuyOffers (@PathVariable Boolean valid) {
         return ResponseEntity.ok(buyOfferService.getBuyOffers().stream().map(BuyOfferResDTO::new).collect(Collectors.toList()));
