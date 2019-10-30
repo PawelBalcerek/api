@@ -1,6 +1,7 @@
 package AI.dtapijava.Controllers;
 
 
+import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,9 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<String> test(){
+        System.out.println(UserUtils.getCurrentUser());
+        System.out.println(UserUtils.getCurrentUserName());
+        System.out.println(UserUtils.getCurrentUserId());
         return ResponseEntity.ok(
                 "If you see this, you have valid JWT token");
     }

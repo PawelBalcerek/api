@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Service
@@ -31,17 +33,20 @@ public class AuthService {
 
 
     public AuthResDTO getSigninCredential(AuthReqDTO authReqDTO){
-        OffsetDateTime startTime = OffsetDateTime.now();
+        OffsetDateTime execStartTime = OffsetDateTime.now();
+
         log.debug("Try login by user {}", authReqDTO.getEmail());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authReqDTO.getEmail(),authReqDTO.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.generateToken(authentication);
+
         return new AuthResDTO(new JwtAuthResDTO(jwt),
                 ((LoginPrincipal) authentication.getPrincipal()).getUser(),
-                startTime,
-                OffsetDateTime.now());
+                null,
+                Duration.between(execStartTime, OffsetDateTime.now()).getNano()
+                );
     }
 
 }

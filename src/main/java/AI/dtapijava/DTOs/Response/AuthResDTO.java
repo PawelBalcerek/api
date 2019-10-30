@@ -16,32 +16,25 @@ public class AuthResDTO {
     private Integer id;
     private String name;
     private String email;
-    private String accessToken;
-    private String tokenType;
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
+    private String JWTToken;
+    private ExecDetailsResDTO execDetails;
+
+
 
     public AuthResDTO(User user){
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
-
     }
 
     public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user) {
         this(user);
-        this.accessToken = jwtAuthRes.getAccessToken();
-        this.tokenType = jwtAuthRes.getTokenType();
+        this.JWTToken = jwtAuthRes.getAccessToken();
     }
-
-    public AuthResDTO(JwtAuthResDTO jwtAuthResDTO, User user, OffsetDateTime startTime,OffsetDateTime endTime){
+    public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user,Integer dbTime,Integer execTime) {
         this(user);
-        this.accessToken = jwtAuthResDTO.getAccessToken();
-        this.tokenType = jwtAuthResDTO.getTokenType();
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.JWTToken = jwtAuthRes.getAccessToken();
+        this.execDetails = new ExecDetailsResDTO(dbTime,execTime);
     }
-
-
 
 }
