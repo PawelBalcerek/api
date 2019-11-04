@@ -2,9 +2,7 @@ package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Request.AuthReqDTO;
 import AI.dtapijava.DTOs.Request.UserCreateReqDTO;
-import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
-import AI.dtapijava.DTOs.Response.UserResDTO;
-import AI.dtapijava.DTOs.Response.UsersFullResDTO;
+import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +37,10 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<ExecTimeResDTO> createUser(@RequestBody UserCreateReqDTO userCreateReqDTO){
         return ResponseEntity.ok(userService.createUser(userCreateReqDTO));
+    }
+
+    @GetMapping("/users/resources")
+    public ResponseEntity<UserResourcesResDTO> getActiveUserResources() {
+        return ResponseEntity.ok(userService.getActiveUserResources());
     }
 }
