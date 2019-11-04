@@ -58,4 +58,14 @@ public class UserController {
     public ResponseEntity<UserTransactionsResDTO> getActiveUserTransactions() {
         return ResponseEntity.ok(userService.getActiveUserTransactions());
     }
+
+    @GetMapping("/users/transactions/sell")
+    public ResponseEntity<UserTransactionsResDTO> getActiveUserSellTransactions() {
+        return ResponseEntity.ok(userService.getActiveUserSellTransactions());
+    }
+
+    @GetMapping("/users/transactions/buy")
+    public ResponseEntity<UserTransactionsResDTO> getActiveUserBuyTransactions() {
+        return ResponseEntity.ok(userService.getActiveUserBuyTransactions());
+    }
 }

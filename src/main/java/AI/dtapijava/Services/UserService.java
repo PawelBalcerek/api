@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -142,10 +143,48 @@ public class UserService {
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        List<Transaction> userTransactions = transactionRepository.getAllTransactionsForUserId(user.getId());
+        List<Transaction> userSellTransactions = transactionRepository.getAllSellTransactionsForUserId(user.getId());
+        List<Transaction> userBuyTransactions = transactionRepository.getAllBuyTransactionsForUserId(user.getId());
+        List<Transaction> userTransactions = new ArrayList<Transaction>();
+        for (Transaction tr : userSellTransactions) userTransactions.add(tr);
+        for (Transaction tr : userBuyTransactions) userTransactions.add(tr);
         execHelper.addNewDbTime();
 
         List<UserTransactionResDTO> userTrasactionsList = userTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+
+        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserTransactionsResDTO getActiveUserSellTransactions() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<Transaction> userSellTransactions = transactionRepository.getAllSellTransactionsForUserId(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserTransactionResDTO> userTrasactionsList = userSellTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+
+        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserTransactionsResDTO getActiveUserBuyTransactions() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<Transaction> userBuyTransactions = transactionRepository.getAllBuyTransactionsForUserId(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserTransactionResDTO> userTrasactionsList = userBuyTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
 
         return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
