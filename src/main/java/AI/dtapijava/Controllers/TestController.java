@@ -52,7 +52,7 @@ public class TestController {
     public ResponseEntity<?> testUser(){return ResponseEntity.ok(userRepository.findAll());}
     @GetMapping("/test/company")
     public ResponseEntity<?> testCompany(){
-        return ResponseEntity.ok(companyRepository.findAll());
+        return ResponseEntity.ok(companyRepository.getAllCompanies());
     }
     @GetMapping("/test/buyOffer")
     public ResponseEntity<?> testBuyOffer(){

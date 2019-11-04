@@ -11,6 +11,7 @@ import AI.dtapijava.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Tuple;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,15 @@ public class CompanyService {
     }
 
     public List<Company> getCompanies() {
-        return companyRepository.findAll();
+        List<Tuple> companies = companyRepository.getAllCompanies();
+    return null;
+
+
+
+    }
+
+    public Double getPrice(Company company){
+        //company.getResources().stream().findFirst().get().getSellOffers().stream().findFirst().get().getPrice()
+        return null;
     }
 }
