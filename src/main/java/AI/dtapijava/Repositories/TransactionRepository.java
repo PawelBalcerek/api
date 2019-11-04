@@ -20,7 +20,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     @Query("SELECT t FROM " +
             "Transaction t INNER JOIN BuyOffer b ON t.buyOffer = b " +
-            "INNER JOIN Resource r ON s.resource = r " +
+            "INNER JOIN Resource r ON b.resource = r " +
             "INNER JOIN User u ON r.user = u " +
             "WHERE u.id = :user")
     List<Transaction> getAllBuyTransactionsForUserId(@Param("user") int user);

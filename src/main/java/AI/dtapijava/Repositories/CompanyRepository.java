@@ -16,7 +16,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     "inner join SellOffer s on r = s.resource "+
     "inner join Transaction t on s = t.sellOffer "+
     "where t.date in( "+
-    "select max(t.date) "+
+    "select max(t.date) from "+
     "Company c inner join Resource r on c = r.company "+
     "inner join SellOffer s on r = s.resource "+
     "inner join Transaction t on s = t.sellOffer "+
