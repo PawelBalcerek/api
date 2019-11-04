@@ -12,6 +12,4 @@ import lombok.Setter;
 public class ExecDetailsResDTO {
     private Integer dbTime;
     private Integer execTime;
-
-
 }
