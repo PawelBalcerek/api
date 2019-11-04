@@ -108,7 +108,7 @@ public class UserService {
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        List<SellOffer> userSellOffers = sellOfferRepository.findAll(); //TODO:!
+        List<SellOffer> userSellOffers = sellOfferRepository.getAllSellOffersForUserId(user.getId());
         execHelper.addNewDbTime();
 
         List<UserSellOfferResDTO> sellOffersList = userSellOffers.stream().map(UserSellOfferResDTO::new).collect(Collectors.toList());
@@ -125,7 +125,7 @@ public class UserService {
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        List<BuyOffer> userBuyOffers = buyOfferRepository.findAll(); //TODO:!
+        List<BuyOffer> userBuyOffers = buyOfferRepository.getAllBuyOffersForUserId(user.getId());
         execHelper.addNewDbTime();
 
         List<UserBuyOfferResDTO> buyOffersList = userBuyOffers.stream().map(UserBuyOfferResDTO::new).collect(Collectors.toList());
@@ -142,7 +142,7 @@ public class UserService {
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        List<Transaction> userTransactions = transactionRepository.findAll(); //TODO:!
+        List<Transaction> userTransactions = transactionRepository.getAllTransactionsForUserId(user.getId());
         execHelper.addNewDbTime();
 
         List<UserTransactionResDTO> userTrasactionsList = userTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
