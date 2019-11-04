@@ -1,5 +1,6 @@
 package AI.dtapijava.Services;
 
+import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.AuthReqDTO;
 import AI.dtapijava.DTOs.Response.AuthResDTO;
 import AI.dtapijava.DTOs.Response.JwtAuthResDTO;
@@ -33,9 +34,9 @@ public class AuthService {
 
 
     public AuthResDTO getSigninCredential(AuthReqDTO authReqDTO){
-        OffsetDateTime execStartTime = OffsetDateTime.now();
-
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
         log.debug("Try login by user {}", authReqDTO.getEmail());
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authReqDTO.getEmail(),authReqDTO.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
@@ -45,7 +46,7 @@ public class AuthService {
         return new AuthResDTO(new JwtAuthResDTO(jwt),
                 ((LoginPrincipal) authentication.getPrincipal()).getUser(),
                 null,
-                Duration.between(execStartTime, OffsetDateTime.now()).getNano()
+                execHelper.getExecTimeWithEndExecTime(OffsetDateTime.now())
                 );
     }
 

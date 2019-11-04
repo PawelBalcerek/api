@@ -1,6 +1,7 @@
 package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Response.UserResDTO;
+import AI.dtapijava.DTOs.Response.UsersFullResDTO;
 import AI.dtapijava.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class UserController {
 
     }
     @GetMapping("/users")
-    public ResponseEntity<List<UserResDTO>> getUsers(){
-        return ResponseEntity.ok(userService.getUsers().stream().map(UserResDTO::new).collect(Collectors.toList()));
+    public ResponseEntity<UsersFullResDTO> getUsers(){
+        return ResponseEntity.ok(userService.getUsers());
     }
 
 }
