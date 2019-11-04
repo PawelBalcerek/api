@@ -3,21 +3,20 @@ package AI.dtapijava.Services;
 
 import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.UserCreateReqDTO;
-import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
-import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
-import AI.dtapijava.DTOs.Response.UserFullResDTO;
-import AI.dtapijava.DTOs.Response.UsersFullResDTO;
-import AI.dtapijava.Entities.User;
+import AI.dtapijava.DTOs.Response.*;
+import AI.dtapijava.Entities.*;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
-import AI.dtapijava.Repositories.UserRepository;
+import AI.dtapijava.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -26,6 +25,16 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ResourceRepository resourceRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+    @Autowired
+    private SellOfferRepository sellOfferRepository;
+    @Autowired
+    private BuyOfferRepository buyOfferRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     public User getUser(int id) {
         return userRepository.findById(id)
@@ -74,5 +83,109 @@ public class UserService {
         return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
+    public UserResourcesResDTO getActiveUserResources() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<Resource> userResources = resourceRepository.getAllResourcesFromUser(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserResourceResDTO> resourcesList = userResources.stream().map(UserResourceResDTO::new).collect(Collectors.toList());
+
+        return new UserResourcesResDTO(resourcesList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserSellOffersResDTO getActiveUserSellOffers() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<SellOffer> userSellOffers = sellOfferRepository.getAllSellOffersForUserId(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserSellOfferResDTO> sellOffersList = userSellOffers.stream().map(UserSellOfferResDTO::new).collect(Collectors.toList());
+
+        return new UserSellOffersResDTO(sellOffersList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserBuyOffersResDTO getActiveUserBuyOffers() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<BuyOffer> userBuyOffers = buyOfferRepository.getAllBuyOffersForUserId(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserBuyOfferResDTO> buyOffersList = userBuyOffers.stream().map(UserBuyOfferResDTO::new).collect(Collectors.toList());
+
+        return new UserBuyOffersResDTO(buyOffersList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserTransactionsResDTO getActiveUserTransactions() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<Transaction> userSellTransactions = transactionRepository.getAllSellTransactionsForUserId(user.getId());
+        List<Transaction> userBuyTransactions = transactionRepository.getAllBuyTransactionsForUserId(user.getId());
+        List<Transaction> userTransactions = new ArrayList<Transaction>();
+        for (Transaction tr : userSellTransactions) userTransactions.add(tr);
+        for (Transaction tr : userBuyTransactions) userTransactions.add(tr);
+        execHelper.addNewDbTime();
+
+        List<UserTransactionResDTO> userTrasactionsList = userTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+
+        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserTransactionsResDTO getActiveUserSellTransactions() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<Transaction> userSellTransactions = transactionRepository.getAllSellTransactionsForUserId(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserTransactionResDTO> userTrasactionsList = userSellTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+
+        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
+
+    public UserTransactionsResDTO getActiveUserBuyTransactions() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+        execHelper.addNewDbTime();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<Transaction> userBuyTransactions = transactionRepository.getAllBuyTransactionsForUserId(user.getId());
+        execHelper.addNewDbTime();
+
+        List<UserTransactionResDTO> userTrasactionsList = userBuyTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+
+        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+    }
 }

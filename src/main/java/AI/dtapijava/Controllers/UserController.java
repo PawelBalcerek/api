@@ -2,9 +2,7 @@ package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Request.AuthReqDTO;
 import AI.dtapijava.DTOs.Request.UserCreateReqDTO;
-import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
-import AI.dtapijava.DTOs.Response.UserResDTO;
-import AI.dtapijava.DTOs.Response.UsersFullResDTO;
+import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +37,35 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<ExecTimeResDTO> createUser(@RequestBody UserCreateReqDTO userCreateReqDTO){
         return ResponseEntity.ok(userService.createUser(userCreateReqDTO));
+    }
+
+    @GetMapping("/users/resources")
+    public ResponseEntity<UserResourcesResDTO> getActiveUserResources() {
+        return ResponseEntity.ok(userService.getActiveUserResources());
+    }
+
+    @GetMapping("/users/sell-offers")
+    public ResponseEntity<UserSellOffersResDTO> getActiveUserSellOffers() {
+        return ResponseEntity.ok(userService.getActiveUserSellOffers());
+    }
+
+    @GetMapping("/users/buy-offers")
+    public ResponseEntity<UserBuyOffersResDTO> getActiveUserBuyOffers() {
+        return ResponseEntity.ok(userService.getActiveUserBuyOffers());
+    }
+
+    @GetMapping("/users/transactions")
+    public ResponseEntity<UserTransactionsResDTO> getActiveUserTransactions() {
+        return ResponseEntity.ok(userService.getActiveUserTransactions());
+    }
+
+    @GetMapping("/users/transactions/sell")
+    public ResponseEntity<UserTransactionsResDTO> getActiveUserSellTransactions() {
+        return ResponseEntity.ok(userService.getActiveUserSellTransactions());
+    }
+
+    @GetMapping("/users/transactions/buy")
+    public ResponseEntity<UserTransactionsResDTO> getActiveUserBuyTransactions() {
+        return ResponseEntity.ok(userService.getActiveUserBuyTransactions());
     }
 }
