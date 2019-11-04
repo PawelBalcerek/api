@@ -87,7 +87,9 @@ public class UserService {
                 .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
+        execHelper.setStartDbTime(OffsetDateTime.now());
         List<Resource> userResources = resourceRepository.getAllResourcesFromUser(user.getId());
+        execHelper.addNewDbTime();
 
         List<UserResourceResDTO> resourcesList = userResources.stream().map(UserResourceResDTO::new).collect(Collectors.toList());
 
