@@ -1,6 +1,10 @@
 package AI.dtapijava.Services;
 
+import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
+import AI.dtapijava.DTOs.Response.CompanyInfoResDTO;
+import AI.dtapijava.DTOs.Response.CompanyNewResDTO;
+import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,12 +49,14 @@ public class CompanyService {
         return companyRepository.getOne(id);
     }
 
-    public List<Company> getCompanies() {
-        List<Tuple> companies = companyRepository.getAllCompanies();
-    return null;
+    public CompanyInfoResDTO getCompanies() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<CompanyNewResDTO> companies = companyRepository.getAllCompanies();
+        execHelper.addNewDbTime();
 
-
+        return new CompanyInfoResDTO(companies, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public Double getPrice(Company company){

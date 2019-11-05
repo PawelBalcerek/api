@@ -1,6 +1,8 @@
 package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
+import AI.dtapijava.DTOs.Response.CompanyInfoResDTO;
+import AI.dtapijava.DTOs.Response.CompanyNewResDTO;
 import AI.dtapijava.DTOs.Response.CompanyResDTO;
 import AI.dtapijava.Services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
-    public ResponseEntity<List<CompanyResDTO>> getCompanies() {
-        return ResponseEntity.ok(companyService.getCompanies().stream().map(CompanyResDTO::new).collect(Collectors.toList()));
+    public ResponseEntity<CompanyInfoResDTO> getCompanies() {
+        return ResponseEntity.ok(companyService.getCompanies());
     }
 }
