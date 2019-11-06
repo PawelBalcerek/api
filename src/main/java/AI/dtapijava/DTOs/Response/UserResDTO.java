@@ -12,11 +12,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserResDTO {
 
+    private Integer id;
     private String name;
     private String email;
     private Double cash;
 
     public UserResDTO(User user){
+        this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
         this.cash = user.getCash();

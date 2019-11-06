@@ -7,11 +7,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 public class CompanyNewResDTO {
-    private ResourceCompanyResDTO company;
+    //private ResourceCompanyResDTO company;
+    private Integer id;
+    private String name;
     private Double indexPrice;
 
     public CompanyNewResDTO(Company company, Double indexPrice) {
-        this.company = new ResourceCompanyResDTO(company);
+        this.id = company.getID();
+        this.name = company.getName();
+        //this.company = new ResourceCompanyResDTO(company);
         this.indexPrice = indexPrice;
     }
 }

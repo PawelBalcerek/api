@@ -1,5 +1,6 @@
 package AI.dtapijava.Entities;
 
+import AI.dtapijava.Enums.ConfigType;
 import lombok.*;
 
 import javax.persistence.*;

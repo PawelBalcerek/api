@@ -4,6 +4,7 @@ import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
 import AI.dtapijava.DTOs.Response.CompanyInfoResDTO;
 import AI.dtapijava.DTOs.Response.CompanyNewResDTO;
 import AI.dtapijava.DTOs.Response.CompanyResDTO;
+import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
 import AI.dtapijava.Services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,8 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping("/companies")
-    public ResponseEntity<Void> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO){
-            companyService.createCompany(companyCreateReqDTO);
-            return ResponseEntity.ok().build();
+    public ResponseEntity<ExecTimeResDTO> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO){            ;
+            return ResponseEntity.ok(companyService.createCompany(companyCreateReqDTO));
     }
 
     @GetMapping("/companies/{id}")

@@ -5,10 +5,12 @@ import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
 import AI.dtapijava.DTOs.Response.CompanyInfoResDTO;
 import AI.dtapijava.DTOs.Response.CompanyNewResDTO;
 import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
+import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
+import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.CompanyRepository;
 import AI.dtapijava.Repositories.ResourceRepository;
 import AI.dtapijava.Repositories.UserRepository;
@@ -29,20 +31,27 @@ public class CompanyService {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public void createCompany(CompanyCreateReqDTO companyCreateReqDTO){
-        //jeśli zwraca optional, to moge dac .orElse() lub .orElseThrow()
-        User owner = userRepository.findById(companyCreateReqDTO.getUserId())
-                //jezeli nie znajdzie rzucam wyjatek
+    public ExecTimeResDTO createCompany(CompanyCreateReqDTO companyCreateReqDTO){
+        ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
+        //TODO sprawdzić, czy firma o takiej nazwie istnieje w bazie (czy mogą być dwie firmy o tej samej nazwie?)
+        execDetailsHelper.setStartDbTime(OffsetDateTime.now());
+        User owner = userRepository.findById(UserUtils.getCurrentUserId())
                 .orElseThrow(()-> new UserNotFoundExceptions("User not found!"));
-
+        execDetailsHelper.addNewDbTime();
             Company company = new Company();
             company.setName(companyCreateReqDTO.getName());
-            //obiekt entity mozna tez zbudowac builder'em (lombok)
+
             Resource resource = Resource.builder().company(company).amount(companyCreateReqDTO.getResourcesAmount())
                                 .user(owner).build();
-            //jednym strzalem do bazy zapisuje w dwoch tabelach (trzeba ustawic odpowiednia kaskade - w tym przypadku PERSIST)
-            resourceRepository.save(resource);
 
+        execDetailsHelper.setStartDbTime(OffsetDateTime.now());
+        resourceRepository.save(resource);
+        execDetailsHelper.addNewDbTime();
+
+        return new ExecTimeResDTO(new ExecDetailsResDTO(
+                execDetailsHelper.getDbTime(),
+                execDetailsHelper.getExecTime()
+        ));
     }
 
     public Company getCompany(int id) {
@@ -59,8 +68,4 @@ public class CompanyService {
         return new CompanyInfoResDTO(companies, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
-    public Double getPrice(Company company){
-        //company.getResources().stream().findFirst().get().getSellOffers().stream().findFirst().get().getPrice()
-        return null;
-    }
 }

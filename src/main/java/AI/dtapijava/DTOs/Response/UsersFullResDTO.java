@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public class UsersFullResDTO {
-    private List<UserResDTO> userResDTOs;
+    private List<UserResDTO> user;
     private ExecDetailsResDTO execDetails;
 
     public UsersFullResDTO(List<User> users, ExecDetailsHelper execDetailsHelper){
-        this.userResDTOs = users.stream().map(UserResDTO::new).collect(Collectors.toList());
+        this.user = users.stream().map(UserResDTO::new).collect(Collectors.toList());
         this.execDetails = new ExecDetailsResDTO(execDetailsHelper.getDbTime(),execDetailsHelper.getExecTime());
     }
 
     public UsersFullResDTO(List<User> users, Integer dbTime,Integer execTime){
-        this.userResDTOs = users.stream().map(UserResDTO::new).collect(Collectors.toList());
+        this.user = users.stream().map(UserResDTO::new).collect(Collectors.toList());
         this.execDetails = new ExecDetailsResDTO(dbTime,execTime);
     }
 
