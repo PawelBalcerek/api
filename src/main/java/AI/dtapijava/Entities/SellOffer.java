@@ -38,7 +38,7 @@ public class SellOffer {
     @Column(nullable = false, name = "start_amount")
     private Integer startAmount;
 
-    @OneToMany(targetEntity = Transaction.class, mappedBy = "sellOffer")
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "sellOffer", cascade = CascadeType.REMOVE)
     private List<Transaction> transactions;
 
 }

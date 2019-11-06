@@ -28,10 +28,10 @@ public class Resource {
     @JoinColumn (name = "comp_id", nullable = false)
     private Company company;
 
-    @OneToMany(targetEntity = SellOffer.class, mappedBy = "resource")
+    @OneToMany(targetEntity = SellOffer.class, mappedBy = "resource", cascade = CascadeType.REMOVE)
     private List<SellOffer> sellOffers;
 
-    @OneToMany(targetEntity = BuyOffer.class, mappedBy = "resource")
+    @OneToMany(targetEntity = BuyOffer.class, mappedBy = "resource", cascade = CascadeType.REMOVE)
     private List<BuyOffer> buyOffers;
 
     @Column(nullable = false)

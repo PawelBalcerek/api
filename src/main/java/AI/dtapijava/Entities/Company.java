@@ -23,7 +23,7 @@ public class Company {
     @Column(length = 255)
     private String name;
 
-    @OneToMany(targetEntity = Resource.class, mappedBy = "company")
+    @OneToMany(targetEntity = Resource.class, mappedBy = "company", cascade = CascadeType.REMOVE)
     private List<Resource> resources;
 
 }

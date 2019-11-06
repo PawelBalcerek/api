@@ -35,7 +35,7 @@ public class User {
     @Column(nullable = false)
     private Double cash;
 
-    @OneToMany(targetEntity = Resource.class, mappedBy = "user")
+    @OneToMany(targetEntity = Resource.class, mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Resource> resources;
 
 

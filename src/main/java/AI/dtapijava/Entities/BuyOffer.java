@@ -35,7 +35,7 @@ public class BuyOffer {
     @Column(nullable = false, name = "is_valid")
     private Boolean isValid;
 
-    @OneToMany(targetEntity = Transaction.class, mappedBy = "buyOffer")
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "buyOffer", cascade = CascadeType.REMOVE)
     private List<Transaction> transactions;
 
     @Column(nullable = false, name = "start_amount")
