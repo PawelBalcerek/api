@@ -1,6 +1,7 @@
 package AI.dtapijava.DTOs.Response;
 
 import AI.dtapijava.Entities.Transaction;
+import AI.dtapijava.Enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +17,14 @@ public class UserTransactionResDTO {
     private int amount;
     private double price;
     private OffsetDateTime date;
+    private TransactionType type;
 
-    public UserTransactionResDTO(Transaction transaction) {
+    public UserTransactionResDTO(Transaction transaction, TransactionType type) {
         id = transaction.getID();
         company = new ResourceCompanyResDTO(transaction.getSellOffer().getResource().getCompany());
         amount = transaction.getAmount();
         price = transaction.getPrice();
         date = transaction.getDate();
+        this.type = type;
     }
 }

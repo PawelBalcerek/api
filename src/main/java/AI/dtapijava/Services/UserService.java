@@ -5,6 +5,7 @@ import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.UserCreateReqDTO;
 import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Entities.*;
+import AI.dtapijava.Enums.TransactionType;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.*;
@@ -145,14 +146,19 @@ public class UserService {
         execHelper.setStartDbTime(OffsetDateTime.now());
         List<Transaction> userSellTransactions = transactionRepository.getAllSellTransactionsForUserId(user.getId());
         List<Transaction> userBuyTransactions = transactionRepository.getAllBuyTransactionsForUserId(user.getId());
-        List<Transaction> userTransactions = new ArrayList<Transaction>();
-        for (Transaction tr : userSellTransactions) userTransactions.add(tr);
-        for (Transaction tr : userBuyTransactions) userTransactions.add(tr);
+        //List<Transaction> userTransactions = new ArrayList<Transaction>();
+        List<UserTransactionResDTO> userTransactionsList = new ArrayList<UserTransactionResDTO>();
+        for (Transaction tr : userSellTransactions) {
+            userTransactionsList.add(new UserTransactionResDTO(tr, TransactionType.SELL_OFFER));
+        }
+        for (Transaction tr : userBuyTransactions) {
+            userTransactionsList.add(new UserTransactionResDTO(tr, TransactionType.BUY_OFFER));
+        }
         execHelper.addNewDbTime();
 
-        List<UserTransactionResDTO> userTrasactionsList = userTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+        //List<UserTransactionResDTO> userTrasactionsList = userTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
 
-        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+        return new UserTransactionsResDTO(userTransactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public UserTransactionsResDTO getActiveUserSellTransactions() {
@@ -167,9 +173,9 @@ public class UserService {
         List<Transaction> userSellTransactions = transactionRepository.getAllSellTransactionsForUserId(user.getId());
         execHelper.addNewDbTime();
 
-        List<UserTransactionResDTO> userTrasactionsList = userSellTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+        List<UserTransactionResDTO> userTransactionsList = userSellTransactions.stream().map(x -> new UserTransactionResDTO(x, TransactionType.SELL_OFFER)).collect(Collectors.toList());
 
-        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+        return new UserTransactionsResDTO(userTransactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public UserTransactionsResDTO getActiveUserBuyTransactions() {
@@ -184,8 +190,8 @@ public class UserService {
         List<Transaction> userBuyTransactions = transactionRepository.getAllBuyTransactionsForUserId(user.getId());
         execHelper.addNewDbTime();
 
-        List<UserTransactionResDTO> userTrasactionsList = userBuyTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
+        List<UserTransactionResDTO> userTransactionsList = userBuyTransactions.stream().map(x -> new UserTransactionResDTO(x, TransactionType.BUY_OFFER)).collect(Collectors.toList());
 
-        return new UserTransactionsResDTO(userTrasactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+        return new UserTransactionsResDTO(userTransactionsList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 }
