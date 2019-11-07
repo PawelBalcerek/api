@@ -94,6 +94,7 @@ public class BuyOfferService {
                 .amount(addBuyOfferReqDTO.getAmount())
                 .startAmount(addBuyOfferReqDTO.getAmount())
                 .date(OffsetDateTime.now())
+                .maxPrice(addBuyOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
         buyOfferRepository.save(buyOffer);

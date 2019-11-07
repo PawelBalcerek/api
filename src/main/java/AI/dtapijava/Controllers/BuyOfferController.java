@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,7 @@ public class BuyOfferController {
     }
 
     @PostMapping("/buyOffers")
-    public ResponseEntity<ExecTimeResDTO> addBuyOffer(AddBuyOfferReqDTO addBuyOfferReqDTO) {
+    public ResponseEntity<ExecTimeResDTO> addBuyOffer(@Valid @RequestBody AddBuyOfferReqDTO addBuyOfferReqDTO) {
         return ResponseEntity.ok(buyOfferService.addBuyOffer(addBuyOfferReqDTO));
     }
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class SellOfferController {
     }
 
     @PostMapping("/sellOffers")
-    public ResponseEntity<ExecTimeResDTO> addSellOffer(AddSellOfferReqDTO addSellOfferReqDTO) {
+    public ResponseEntity<ExecTimeResDTO> addSellOffer(@Valid @RequestBody AddSellOfferReqDTO addSellOfferReqDTO) {
         return ResponseEntity.ok(sellOfferService.addSellOffer(addSellOfferReqDTO));
     }
 

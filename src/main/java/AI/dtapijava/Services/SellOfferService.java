@@ -81,6 +81,7 @@ public class SellOfferService {
                 .amount(addSellOfferReqDTO.getAmount())
                 .startAmount(addSellOfferReqDTO.getAmount())
                 .date(OffsetDateTime.now())
+                .price(addSellOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
         sellOfferRepository.save(sellOffer);
