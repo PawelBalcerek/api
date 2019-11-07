@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Tuple;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
+
+    Optional<Company> findById(Integer id);
 
     @Query("SELECT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c, t.price) from "+
     "Company c inner join Resource r on c = r.company "+

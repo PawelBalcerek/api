@@ -37,7 +37,7 @@ public class SellOfferService {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Sell offer not found"));
         execHelper.addNewDbTime();
         sellOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
