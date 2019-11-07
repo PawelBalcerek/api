@@ -32,4 +32,18 @@ public class DatabaseService {
                 execDetailsHelper.getExecTime()
         ));
     }
+
+    public ExecTimeResDTO purgeDatabase() {
+        ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
+
+        execDetailsHelper.setStartDbTime(OffsetDateTime.now());
+        companyRepository.deleteAll();
+        userRepository.deleteAll();
+        execDetailsHelper.addNewDbTime();
+
+        return new ExecTimeResDTO(new ExecDetailsResDTO(
+                execDetailsHelper.getDbTime(),
+                execDetailsHelper.getExecTime()
+        ));
+    }
 }

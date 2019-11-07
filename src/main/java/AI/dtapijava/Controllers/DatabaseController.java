@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class DatabaseController {
     @Autowired
-    DatabaseService databaseService;
+    private DatabaseService databaseService;
 
     @DeleteMapping("/database/clean")
     public ResponseEntity<ExecTimeResDTO> cleanDatabase() {
         return ResponseEntity.ok(databaseService.cleanDatabase());
+    }
+
+    @DeleteMapping("/database/purge")
+    public ResponseEntity<ExecTimeResDTO> purgeDatabase() {
+        return ResponseEntity.ok(databaseService.purgeDatabase());
     }
 }
