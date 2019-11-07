@@ -7,11 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SellOfferRepository extends JpaRepository<SellOffer, Integer> {
 
     List<SellOffer> findByIsValid (Boolean valid);
+
+    Optional<SellOffer> findById(Integer id);
 
     @Query("SELECT s FROM " +
     "SellOffer s INNER JOIN Resource r ON s.resource = r " +
