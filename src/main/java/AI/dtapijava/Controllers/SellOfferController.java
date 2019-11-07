@@ -2,7 +2,9 @@ package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Request.AddSellOfferReqDTO;
 import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
+import AI.dtapijava.DTOs.Response.SellOfferExtResDTO;
 import AI.dtapijava.DTOs.Response.SellOfferResDTO;
+import AI.dtapijava.DTOs.Response.SellOffersResDTO;
 import AI.dtapijava.Services.SellOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +21,23 @@ public class SellOfferController {
     private SellOfferService sellOfferService;
 
     @GetMapping("/sellOffers/{id}")
-    public ResponseEntity<SellOfferResDTO> getSellOffer (@PathVariable int id) {
-        return ResponseEntity.ok(new SellOfferResDTO(sellOfferService.getSellOffer(id)));
+    public ResponseEntity<SellOfferExtResDTO> getSellOffer (@PathVariable int id) {
+        return ResponseEntity.ok(sellOfferService.getSellOffer(id));
     }
 
     @GetMapping("/sellOffers/isValid")
-    public  ResponseEntity<List<SellOfferResDTO>> getSellOffersValid () {
-        return ResponseEntity.ok(sellOfferService.getSellOffersValid(Boolean.TRUE).stream().map(SellOfferResDTO::new).collect(Collectors.toList()));
+    public  ResponseEntity<SellOffersResDTO> getSellOffersValid () {
+        return ResponseEntity.ok(sellOfferService.getSellOffersValid(Boolean.TRUE));
     }
 
     @GetMapping("/sellOffers/isNotValid")
-    public  ResponseEntity<List<SellOfferResDTO>> getSellOffersNotValid () {
-        return ResponseEntity.ok(sellOfferService.getSellOffersValid(Boolean.FALSE).stream().map(SellOfferResDTO::new).collect(Collectors.toList()));
+    public  ResponseEntity<SellOffersResDTO> getSellOffersNotValid () {
+        return ResponseEntity.ok(sellOfferService.getSellOffersValid(Boolean.FALSE));
     }
 
     @GetMapping("/sellOffers/")
-    public  ResponseEntity<List<SellOfferResDTO>> getSellOffers () {
-        return ResponseEntity.ok(sellOfferService.getSellOffers().stream().map(SellOfferResDTO::new).collect(Collectors.toList()));
+    public  ResponseEntity<SellOffersResDTO> getSellOffers () {
+        return ResponseEntity.ok(sellOfferService.getSellOffers());
     }
 
     @PostMapping("/sellOffers")

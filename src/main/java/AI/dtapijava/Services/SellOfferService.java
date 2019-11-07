@@ -2,8 +2,7 @@ package AI.dtapijava.Services;
 
 import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.AddSellOfferReqDTO;
-import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
-import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
+import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.SellOffer;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SellOfferService {
@@ -32,16 +32,36 @@ public class SellOfferService {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public SellOffer getSellOffer (int id) {
-        return sellOfferRepository.getOne(id);
+    public SellOfferExtResDTO getSellOffer (int id){
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Sell offer not found"));
+        execHelper.addNewDbTime();
+
+        return new SellOfferExtResDTO(new SellOfferResDTO(sellOffer), new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
-    public List<SellOffer> getSellOffers() {
-        return sellOfferRepository.findAll();
+    public SellOffersResDTO getSellOffers() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<SellOffer> sellOffers = sellOfferRepository.findAll();
+        execHelper.addNewDbTime();
+
+        List<SellOfferResDTO> sellOfferResDTOList = sellOffers.stream().map(SellOfferResDTO::new).collect(Collectors.toList());
+        return new SellOffersResDTO(sellOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
-    public List<SellOffer> getSellOffersValid (Boolean valid) {
-        return sellOfferRepository.findByIsValid(valid);
+    public SellOffersResDTO getSellOffersValid (Boolean valid) {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<SellOffer> sellOffers = sellOfferRepository.findByIsValid(valid);
+        execHelper.addNewDbTime();
+
+        List<SellOfferResDTO> sellOfferResDTOList = sellOffers.stream().map(SellOfferResDTO::new).collect(Collectors.toList());
+        return new SellOffersResDTO(sellOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
     public ExecTimeResDTO addSellOffer(AddSellOfferReqDTO addSellOfferReqDTO) {ExecDetailsHelper execHelper = new ExecDetailsHelper();

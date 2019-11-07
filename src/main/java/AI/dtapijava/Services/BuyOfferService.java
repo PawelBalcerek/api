@@ -3,8 +3,7 @@ package AI.dtapijava.Services;
 
 import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.AddBuyOfferReqDTO;
-import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
-import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
+import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Entities.BuyOffer;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BuyOfferService {
@@ -33,16 +33,36 @@ public class BuyOfferService {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public BuyOffer getBuyOffer (int id) {
-        return buyOfferRepository.getOne(id);
+    public BuyOfferExtResDTO getBuyOffer (int id) {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        BuyOffer buyOffer = buyOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Buy offer not found"));
+        execHelper.addNewDbTime();
+
+        return new BuyOfferExtResDTO(new BuyOfferResDTO(buyOffer), new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
-    public List<BuyOffer> getBuyOffers() {
-        return buyOfferRepository.findAll();
+    public BuyOffersResDTO getBuyOffers() {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<BuyOffer> buyOffers = buyOfferRepository.findAll();
+        execHelper.addNewDbTime();
+
+        List<BuyOfferResDTO> buyOfferResDTOList = buyOffers.stream().map(BuyOfferResDTO::new).collect(Collectors.toList());
+        return new BuyOffersResDTO(buyOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
-    public List<BuyOffer> getBuyOffersValid (Boolean valid) {
-        return buyOfferRepository.findByIsValid(valid);
+    public BuyOffersResDTO getBuyOffersValid (Boolean valid) {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
+
+        execHelper.setStartDbTime(OffsetDateTime.now());
+        List<BuyOffer> buyOffers = buyOfferRepository.findByIsValid(valid);
+        execHelper.addNewDbTime();
+
+        List<BuyOfferResDTO> buyOfferResDTOList = buyOffers.stream().map(BuyOfferResDTO::new).collect(Collectors.toList());
+        return new BuyOffersResDTO(buyOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
 
     public ExecTimeResDTO addBuyOffer(AddBuyOfferReqDTO addBuyOfferReqDTO) {
