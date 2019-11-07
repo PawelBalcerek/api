@@ -19,7 +19,7 @@ public class BuyOffer {
     @Column(unique = true, nullable = false)
     private Integer ID;
 
-    @ManyToOne(targetEntity = Resource.class)
+    @ManyToOne(targetEntity = Resource.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "resource_id", nullable = false)
     private Resource resource;
 

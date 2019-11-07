@@ -60,9 +60,12 @@ public class BuyOfferService {
                     .company(company)
                     .amount(0)
                     .build());
+            /*
+            depracted - resource is saved with persist cascade
             execHelper.setStartDbTime(OffsetDateTime.now());
             resourceRepository.save(resource.get());
             execHelper.addNewDbTime();
+             */
         }
 
         BuyOffer buyOffer = BuyOffer.builder()
