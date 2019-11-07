@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<UsersFullResDTO> getActiveUser(){
-        return ResponseEntity.ok(userService.getUsers());
+    public ResponseEntity<UserFullResDTO> getActiveUser(){
+        return ResponseEntity.ok(userService.getActiveUser());
     }
 
     @PostMapping("/users")
