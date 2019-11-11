@@ -13,26 +13,26 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthResDTO {
-    private Integer id;
-    private String name;
-    private String email;
+//    private Integer id;
+//    private String name;
+//    private String email;
     private String JWTToken;
     private ExecDetailsResDTO execDetails;
 
 
 
-    public AuthResDTO(User user){
-        this.id = user.getId();
-        this.name = user.getName();
-        this.email = user.getEmail();
-    }
+//    public AuthResDTO(User user){
+//        this.id = user.getId();
+//        this.name = user.getName();
+//        this.email = user.getEmail();
+//    }
 
     public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user) {
-        this(user);
+        //this(user);
         this.JWTToken = jwtAuthRes.getAccessToken();
     }
     public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user,Integer dbTime,Integer execTime) {
-        this(user);
+        //this(user);
         this.JWTToken = jwtAuthRes.getAccessToken();
         this.execDetails = new ExecDetailsResDTO(dbTime,execTime);
     }

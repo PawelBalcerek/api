@@ -3,6 +3,7 @@ package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Request.AuthReqDTO;
 import AI.dtapijava.DTOs.Response.AuthResDTO;
+import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Services.AuthService;
 import org.slf4j.Logger;
@@ -29,9 +30,9 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<Void> logout(){
+    public ResponseEntity<ExecTimeResDTO> logout(){
         log.debug("User by id: {} logout", UserUtils.getCurrentUserId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(authService.logout());
     }
 
 

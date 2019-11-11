@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class LoginDetailsService implements UserDetailsService {
 
     @Autowired
@@ -20,7 +21,7 @@ public class LoginDetailsService implements UserDetailsService {
     @Autowired
     private HttpServletRequest request;
 
-    @Transactional
+
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 
         User user = userRepository.findByNameOrEmail(usernameOrEmail, usernameOrEmail)
@@ -29,7 +30,6 @@ public class LoginDetailsService implements UserDetailsService {
         return LoginPrincipal.create(user);
     }
 
-    @Transactional
     public UserDetails loadUserById(Integer id) throws UsernameNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id));

@@ -3,6 +3,8 @@ package AI.dtapijava.Services;
 import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.AuthReqDTO;
 import AI.dtapijava.DTOs.Response.AuthResDTO;
+import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
+import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
 import AI.dtapijava.DTOs.Response.JwtAuthResDTO;
 import AI.dtapijava.Infrastructure.Properties.JwtTokenProvider;
 import AI.dtapijava.Infrastructure.Properties.LoginPrincipal;
@@ -48,6 +50,11 @@ public class AuthService {
                 null,
                 execHelper.getExecTimeWithEndExecTime(OffsetDateTime.now())
                 );
+    }
+
+    public ExecTimeResDTO logout(){
+        ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
+        return new ExecTimeResDTO(new ExecDetailsResDTO(0,execDetailsHelper.getExecTime()));
     }
 
 }

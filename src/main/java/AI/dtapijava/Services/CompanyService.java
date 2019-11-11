@@ -59,6 +59,7 @@ public class CompanyService {
     }
 
     public CompanyInfoResDTO getCompanies() {
+        //TODO do przerobienia
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());

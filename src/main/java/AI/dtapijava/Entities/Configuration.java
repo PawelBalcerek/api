@@ -1,6 +1,5 @@
 package AI.dtapijava.Entities;
 
-import AI.dtapijava.Enums.ConfigType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +14,7 @@ import javax.persistence.*;
 public class Configuration {
 
     @Id
-    @Column(length = 255, unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column(nullable = false)

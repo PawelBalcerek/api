@@ -21,32 +21,32 @@ public class SellOfferController {
     @Autowired
     private SellOfferService sellOfferService;
 
-    @GetMapping("/sellOffers/{id}")
+    @GetMapping("/sell-offers/{id}")
     public ResponseEntity<SellOfferExtResDTO> getSellOffer (@PathVariable int id) {
         return ResponseEntity.ok(sellOfferService.getSellOffer(id));
     }
 
-    @GetMapping("/sellOffers/isValid")
+    @GetMapping("/sell-offers/isValid")
     public  ResponseEntity<SellOffersResDTO> getSellOffersValid () {
         return ResponseEntity.ok(sellOfferService.getSellOffersValid(Boolean.TRUE));
     }
 
-    @GetMapping("/sellOffers/isNotValid")
+    @GetMapping("/sell-offers/isNotValid")
     public  ResponseEntity<SellOffersResDTO> getSellOffersNotValid () {
         return ResponseEntity.ok(sellOfferService.getSellOffersValid(Boolean.FALSE));
     }
 
-    @GetMapping("/sellOffers/")
+    @GetMapping("/sell-offers")
     public  ResponseEntity<SellOffersResDTO> getSellOffers () {
         return ResponseEntity.ok(sellOfferService.getSellOffers());
     }
 
-    @PostMapping("/sellOffers")
+    @PostMapping("/sell-offers")
     public ResponseEntity<ExecTimeResDTO> addSellOffer(@Valid @RequestBody AddSellOfferReqDTO addSellOfferReqDTO) {
         return ResponseEntity.ok(sellOfferService.addSellOffer(addSellOfferReqDTO));
     }
 
-    @PutMapping("/sellOffers/{id}")
+    @PutMapping("/sell-offers/{id}")
     public ResponseEntity<ExecTimeResDTO> withdrawSellOffer(@PathVariable int id) {
         return ResponseEntity.ok(sellOfferService.withdrawSellOffer(id));
     }

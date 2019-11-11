@@ -40,9 +40,7 @@ public class ExecDetailsHelper {
         this.startDbTime = null;
     }
     public void addNewDbTime(){
-        if(this.startDbTime!=null)
-            this.dbTime += Duration.between(this.startDbTime, OffsetDateTime.now()).getNano();
-        this.startDbTime = null;
+        this.addNewDbTime(OffsetDateTime.now());
     }
 
 

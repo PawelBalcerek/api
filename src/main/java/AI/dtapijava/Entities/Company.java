@@ -20,7 +20,7 @@ public class Company {
     @Column(unique = true, nullable = false)
     private Integer ID;
 
-    @Column(length = 255)
+    @Column
     private String name;
 
     @OneToMany(targetEntity = Resource.class, mappedBy = "company", cascade = CascadeType.REMOVE)

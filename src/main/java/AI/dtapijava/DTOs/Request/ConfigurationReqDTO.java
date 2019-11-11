@@ -1,6 +1,5 @@
 package AI.dtapijava.DTOs.Request;
 
-import AI.dtapijava.Enums.ConfigType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

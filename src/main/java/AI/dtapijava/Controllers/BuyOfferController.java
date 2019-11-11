@@ -23,32 +23,32 @@ public class BuyOfferController {
     @Autowired
     private BuyOfferService buyOfferService;
 
-    @GetMapping("/buyOffers/{id}")
+    @GetMapping("/buy-offers/{id}")
     public ResponseEntity<BuyOfferExtResDTO> getBuyOffer (@PathVariable int id) {
         return ResponseEntity.ok(buyOfferService.getBuyOffer(id));
     }
 
-    @GetMapping("/buyOffers/isValid")
+    @GetMapping("/buy-offers/isValid")
     public  ResponseEntity<BuyOffersResDTO> getBuyOffersValid () {
         return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.TRUE));
     }
 
-    @GetMapping("/buyOffers/isNotValid")
+    @GetMapping("/buy-offers/isNotValid")
     public  ResponseEntity<BuyOffersResDTO> getBuyOffersNotValid () {
         return ResponseEntity.ok(buyOfferService.getBuyOffersValid(Boolean.FALSE));
     }
 
-    @GetMapping("/buyOffers/")
+    @GetMapping("/buy-offers")
     public  ResponseEntity<BuyOffersResDTO> getBuyOffers () {
         return ResponseEntity.ok(buyOfferService.getBuyOffers());
     }
 
-    @PostMapping("/buyOffers")
+    @PostMapping("/buy-offers")
     public ResponseEntity<ExecTimeResDTO> addBuyOffer(@Valid @RequestBody AddBuyOfferReqDTO addBuyOfferReqDTO) {
         return ResponseEntity.ok(buyOfferService.addBuyOffer(addBuyOfferReqDTO));
     }
 
-    @PutMapping("/buyOffers/{id}")
+    @PutMapping("/buy-offers/{id}")
     public ResponseEntity<ExecTimeResDTO> withdrawBuyOffer(@PathVariable int id) {
         return ResponseEntity.ok(buyOfferService.withdrawBuyOffer(id));
     }
