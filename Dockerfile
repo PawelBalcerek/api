@@ -10,5 +10,6 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 COPY --from=build /build/build/libs/*.jar /app/app.jar
 USER 1001
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
