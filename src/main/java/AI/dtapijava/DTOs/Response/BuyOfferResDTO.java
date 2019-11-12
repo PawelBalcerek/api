@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuyOfferResDTO {
+    private int id;
     private Integer amount;
     private Double maxPrice;
     private OffsetDateTime date;

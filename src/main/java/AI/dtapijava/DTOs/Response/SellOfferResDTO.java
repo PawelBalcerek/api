@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SellOfferResDTO {
+    private int id;
     private Integer amount;
     private Double price;
     private OffsetDateTime date;
