@@ -53,6 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers("/app/**/*.{js,html}")
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
 
                 http
@@ -67,6 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/swagger-resources/configuration/ui").permitAll()
+                .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login/**").permitAll()
                  .antMatchers(HttpMethod.POST,"/api/users/**").permitAll()
                 .anyRequest().authenticated();
