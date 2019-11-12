@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,9 +65,13 @@ public class CompanyService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         List<CompanyNewResDTO> companies = companyRepository.getAllCompanies();
+        List<CompanyNewResDTO> companiesOther = companyRepository.getOtherCompanies();
         execHelper.addNewDbTime();
+        List<CompanyNewResDTO> allCompanies = new ArrayList<>(companies.size()+companiesOther.size());
+        allCompanies.addAll(companies);
+        allCompanies.addAll(companiesOther);
 
-        return new CompanyInfoResDTO(companies, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+        return new CompanyInfoResDTO(allCompanies, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
 }

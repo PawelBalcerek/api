@@ -18,4 +18,11 @@ public class CompanyNewResDTO {
         //this.company = new ResourceCompanyResDTO(company);
         this.indexPrice = indexPrice;
     }
+
+    public CompanyNewResDTO(Company company) {
+        this.id = company.getID();
+        this.name = company.getName();
+        //this.company = new ResourceCompanyResDTO(company);
+        this.indexPrice = null;
+    }
 }

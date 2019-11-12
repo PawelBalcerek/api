@@ -17,14 +17,24 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     @Query("SELECT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c, t.price) from "+
     "Company c inner join Resource r on c = r.company "+
-    "inner join SellOffer s on r = s.resource "+
-    "inner join Transaction t on s = t.sellOffer "+
+    "left join SellOffer s on r = s.resource "+
+    "left join Transaction t on s = t.sellOffer "+
     "where t.date in( "+
     "select max(t.date) from "+
     "Company c inner join Resource r on c = r.company "+
-    "inner join SellOffer s on r = s.resource "+
-    "inner join Transaction t on s = t.sellOffer "+
+    "left join SellOffer s on r = s.resource "+
+    "left join Transaction t on s = t.sellOffer "+
     "group by c.id "+
     "order by c.id )")
     List<CompanyNewResDTO> getAllCompanies();
+
+    @Query("SELECT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c) from "+
+            "Company c inner join Resource r on c = r.company "+
+            "left join SellOffer s on r = s.resource " +
+            "WHERE s.resource IS NULL")
+    List<CompanyNewResDTO> getOtherCompanies();
+
+    @Query("SELECT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c) from " +
+            "Company c WHERE id NOT IN :ids")
+    List<CompanyNewResDTO> getCompaniesExcept(int[] ids);
 }
