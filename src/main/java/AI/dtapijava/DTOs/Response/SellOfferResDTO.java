@@ -21,6 +21,7 @@ public class SellOfferResDTO {
     private Integer startAmount;
 
     public SellOfferResDTO (SellOffer sellOffer) {
+        this.id = sellOffer.getID();
         this.amount = sellOffer.getAmount();
         this.price = sellOffer.getPrice();
         this.date = sellOffer.getDate();
