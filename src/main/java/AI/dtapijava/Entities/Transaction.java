@@ -19,11 +19,11 @@ public class Transaction {
     @Column(unique = true, nullable = false)
     private Integer ID;
 
-    @ManyToOne(targetEntity = SellOffer.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = SellOffer.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sell_offer_id")
     private SellOffer sellOffer;
 
-    @ManyToOne(targetEntity = BuyOffer.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = BuyOffer.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "buy_offer_id")
     private BuyOffer buyOffer;
 

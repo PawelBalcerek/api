@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +32,8 @@ public class SellOfferService {
     private UserRepository userRepository;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private TradeService tradeService;
 
     public SellOfferExtResDTO getSellOffer (int id){
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
@@ -86,6 +89,8 @@ public class SellOfferService {
         execHelper.setStartDbTime(OffsetDateTime.now());
         sellOfferRepository.save(sellOffer);
         execHelper.addNewDbTime();
+
+        tradeService.startThread(sellOffer.getResource().getCompany().getID());
 
         return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }

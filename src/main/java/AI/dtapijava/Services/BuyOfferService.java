@@ -32,6 +32,8 @@ public class BuyOfferService {
     private UserRepository userRepository;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private TradeService tradeService;
 
     public BuyOfferExtResDTO getBuyOffer (int id) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
@@ -99,6 +101,8 @@ public class BuyOfferService {
         execHelper.setStartDbTime(OffsetDateTime.now());
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
+
+        tradeService.startThread(buyOffer.getResource().getCompany().getID());
 
         return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
