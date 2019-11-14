@@ -20,7 +20,7 @@ public class Resource {
     @Column(unique = true, nullable = false)
     private Integer ID;
 
-    @ManyToOne (targetEntity = User.class, fetch = FetchType.EAGER)
+    @ManyToOne (targetEntity = User.class, fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn (name = "user_id", nullable = false)
     private User user;
 
