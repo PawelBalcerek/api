@@ -87,6 +87,7 @@ public class SellOfferService {
                 .price(addSellOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
+        resource.setAmount(resource.getAmount()-sellOffer.getStartAmount());
         sellOfferRepository.save(sellOffer);
         execHelper.addNewDbTime();
 
@@ -103,6 +104,7 @@ public class SellOfferService {
         execHelper.addNewDbTime();
         sellOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
+        sellOffer.getResource().setAmount(sellOffer.getResource().getAmount()+sellOffer.getAmount());
         sellOfferRepository.save(sellOffer);
         execHelper.addNewDbTime();
 

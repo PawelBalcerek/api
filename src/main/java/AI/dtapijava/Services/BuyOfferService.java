@@ -99,6 +99,7 @@ public class BuyOfferService {
                 .maxPrice(addBuyOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
+        user.setCash(user.getCash()-(buyOffer.getStartAmount()*buyOffer.getMaxPrice()));
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
 
@@ -115,6 +116,7 @@ public class BuyOfferService {
         execHelper.addNewDbTime();
         buyOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
+        buyOffer.getResource().getUser().setCash(buyOffer.getResource().getUser().getCash()+(buyOffer.getStartAmount()-buyOffer.getAmount())*buyOffer.getMaxPrice());
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
 
