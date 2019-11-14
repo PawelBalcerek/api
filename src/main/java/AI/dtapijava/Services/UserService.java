@@ -6,6 +6,7 @@ import AI.dtapijava.DTOs.Request.UserCreateReqDTO;
 import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Entities.*;
 import AI.dtapijava.Enums.TransactionType;
+import AI.dtapijava.Exceptions.EmailReadyExistException;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.*;
@@ -75,7 +76,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         if(userRepository.existsByNameOrEmail(userCreateReqDTO.getName(),userCreateReqDTO.getEmail())){
-            System.out.println("Rzuc wyjątek - użytkownik istnieje w azie ");
+            new EmailReadyExistException("Email already exists in database");
         }
 
         User newUser = userRepository.save(user);

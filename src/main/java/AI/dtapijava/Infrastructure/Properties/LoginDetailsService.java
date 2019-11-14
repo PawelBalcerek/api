@@ -1,6 +1,8 @@
 package AI.dtapijava.Infrastructure.Properties;
 
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.EmailNotExistException;
+import AI.dtapijava.Exceptions.UserIDNotExistException;
 import AI.dtapijava.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,14 +27,14 @@ public class LoginDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 
         User user = userRepository.findByNameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with login or email : " + usernameOrEmail));
+                .orElseThrow(() -> new EmailNotExistException("User not found with login or email : " + usernameOrEmail));
 
         return LoginPrincipal.create(user);
     }
 
     public UserDetails loadUserById(Integer id) throws UsernameNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id));
+                .orElseThrow(() -> new UserIDNotExistException("User not found with id : " + id));
         LoginPrincipal loginPrincipal = LoginPrincipal.create(user);
 
         return loginPrincipal;
