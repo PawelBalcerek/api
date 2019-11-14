@@ -16,7 +16,7 @@ INSERT INTO sell_offers(
 
 INSERT INTO sell_offers(
 	resource_id, amount, price, date, is_valid, start_amount)
-	VALUES ( 1, 333, 35.43, '2019-11-10T14:50:56.525+02:00', TRUE, 452);
+	VALUES ( 1, 333, 35.43, '2019-11-10T14:50:56.525+02:00', FALSE, 452);
 
 INSERT INTO sell_offers(
 	resource_id, amount, price, date, is_valid, start_amount)
@@ -32,7 +32,7 @@ INSERT INTO sell_offers(
 
 INSERT INTO sell_offers(
 	resource_id, amount, price, date, is_valid, start_amount)
-	VALUES ( 2, 24, 17.00, '2019-11-10T09:00:16.525+02:00', TRUE, 652);
+	VALUES ( 2, 24, 17.00, '2019-11-10T09:00:16.525+02:00', FALSE, 652);
 
 INSERT INTO sell_offers(
 	resource_id, amount, price, date, is_valid, start_amount)

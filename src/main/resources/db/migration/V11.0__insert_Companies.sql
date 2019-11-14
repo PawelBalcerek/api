@@ -1,8 +1,8 @@
 INSERT INTO companies(name)
-VALUES('company 1');
+VALUES('PRZ');
 
 INSERT INTO companies(name)
-VALUES('company 2');
+VALUES('company test');
 
 INSERT INTO companies(name)
 VALUES('my company');
