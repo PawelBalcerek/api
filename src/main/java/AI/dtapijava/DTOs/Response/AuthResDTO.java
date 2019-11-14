@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +14,7 @@ public class AuthResDTO {
 //    private Integer id;
 //    private String name;
 //    private String email;
-    private String JWTToken;
+    private String jwt;
     private ExecDetailsResDTO execDetails;
 
 
@@ -29,11 +27,11 @@ public class AuthResDTO {
 
     public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user) {
         //this(user);
-        this.JWTToken = jwtAuthRes.getAccessToken();
+        this.jwt = jwtAuthRes.getAccessToken();
     }
     public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user,Integer dbTime,Integer execTime) {
         //this(user);
-        this.JWTToken = jwtAuthRes.getAccessToken();
+        this.jwt = jwtAuthRes.getAccessToken();
         this.execDetails = new ExecDetailsResDTO(dbTime,execTime);
     }
 
