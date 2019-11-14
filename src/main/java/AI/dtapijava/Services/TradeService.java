@@ -58,7 +58,7 @@ public class TradeService {
                         sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount()-transactionAmount);
                         buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount()-transactionAmount);
                         updateResourceforSellOfferId(sellOffers.get(indexSell).getResource().getID(), transactionAmount, transaction.getPrice());
-                        updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice());
+                        updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice(), buyOffers.get(indexBuy).getMaxPrice());
                         sellOfferRepository.save(sellOffers.get(indexSell));
                         buyOfferRepository.save(buyOffers.get(indexBuy));
                         transactionRepository.save(transaction);
@@ -76,7 +76,7 @@ public class TradeService {
                         sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount()-transactionAmount);
                         buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount()-transactionAmount);
                         updateResourceforSellOfferId(sellOffers.get(indexSell).getResource().getID(), transactionAmount, transaction.getPrice());
-                        updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice());
+                        updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice(), buyOffers.get(indexBuy).getMaxPrice());
                         sellOfferRepository.save(sellOffers.get(indexSell));
                         buyOfferRepository.save(buyOffers.get(indexBuy));
                         transactionRepository.save(transaction);
@@ -94,7 +94,7 @@ public class TradeService {
                         sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount()-transactionAmount);
                         buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount()-transactionAmount);
                         updateResourceforSellOfferId(sellOffers.get(indexSell).getResource().getID(), transactionAmount, transaction.getPrice());
-                        updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice());
+                        updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice(), buyOffers.get(indexBuy).getMaxPrice());
                         sellOfferRepository.save(sellOffers.get(indexSell));
                         buyOfferRepository.save(buyOffers.get(indexBuy));
                         transactionRepository.save(transaction);
@@ -118,18 +118,16 @@ public class TradeService {
 
     private void updateResourceforSellOfferId(int resourceId, int amount, double cash) {
         Resource resource = resourceRepository.getOne(resourceId);
-        resource.setAmount(resource.getAmount() - amount);
         User user = resource.getUser();
         user.setCash(user.getCash() + amount*cash);
         resource.setUser(user);
         resourceRepository.save(resource);
     }
 
-    private void updateResourceforBuyOfferId(int resourceId, int amount, double cash) {
+    private void updateResourceforBuyOfferId(int resourceId, int amount, double transactionPrice, double buyOfferPrice) {
         Resource resource = resourceRepository.getOne(resourceId);
-        resource.setAmount(resource.getAmount() + amount);
         User user = resource.getUser();
-        user.setCash(user.getCash() - amount*cash);
+        user.setCash(user.getCash() + amount*(buyOfferPrice-transactionPrice));
         resource.setUser(user);
         resourceRepository.save(resource);
     }
