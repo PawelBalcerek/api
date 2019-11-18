@@ -16,7 +16,7 @@ public class DatabaseController {
     @Autowired
     private DatabaseService databaseService;
 
-    @DeleteMapping("/database/clean")
+    @DeleteMapping("/database/clear")
     public ResponseEntity<ExecTimeResDTO> cleanDatabase() {
         return ResponseEntity.ok(databaseService.cleanDatabase());
     }
