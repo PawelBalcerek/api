@@ -8,7 +8,9 @@ import AI.dtapijava.Entities.BuyOffer;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.CompanyNotExistException;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
+import AI.dtapijava.Exceptions.YouAreNotOwnerException;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.BuyOfferRepository;
 import AI.dtapijava.Repositories.CompanyRepository;
@@ -71,9 +73,10 @@ public class BuyOfferService {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        Company company = companyRepository.findById(addBuyOfferReqDTO.getCompanyId()).orElseThrow(() -> new RuntimeException("Company not found"));
+        Company company = companyRepository.findById(addBuyOfferReqDTO.getCompanyId())
+                                .orElseThrow(() -> new CompanyNotExistException("Company not found"));
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                                 .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
         Optional<Resource> resource = resourceRepository.findByUserAndCompany(user, company);
         execHelper.addNewDbTime();
         if (resource.isEmpty()) {
@@ -112,8 +115,15 @@ public class BuyOfferService {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        BuyOffer buyOffer = buyOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Buy offer not found"));
+        BuyOffer buyOffer = buyOfferRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotExistException("Buy offer not found"));
+
+
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
+
+        if (!buyOffer.getResource().getUser().getId().equals( user.getId() )) throw new YouAreNotOwnerException("You are not owner of this offer!");
         buyOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
         buyOffer.getResource().getUser().setCash(buyOffer.getResource().getUser().getCash()+(buyOffer.getStartAmount()-buyOffer.getAmount())*buyOffer.getMaxPrice());

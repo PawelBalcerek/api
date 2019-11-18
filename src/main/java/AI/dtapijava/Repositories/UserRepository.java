@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByNameOrEmail(String name, String email);
 
+    Optional<User> findByEmail(String email);
+
     @Modifying
     @Query("UPDATE User u SET u.cash=0")
     void cleanMoney();

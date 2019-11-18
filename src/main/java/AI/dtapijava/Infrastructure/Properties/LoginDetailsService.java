@@ -24,10 +24,10 @@ public class LoginDetailsService implements UserDetailsService {
     private HttpServletRequest request;
 
 
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        User user = userRepository.findByNameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new EmailNotExistException("User not found with login or email : " + usernameOrEmail));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EmailNotExistException("User not found with login or email : " + email));
 
         return LoginPrincipal.create(user);
     }
