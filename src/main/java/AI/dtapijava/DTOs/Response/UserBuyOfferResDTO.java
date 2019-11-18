@@ -17,6 +17,7 @@ public class UserBuyOfferResDTO {
     private int startAmount;
     private double price;
     private OffsetDateTime date;
+    private Boolean isValid;
 
     public UserBuyOfferResDTO(BuyOffer buyOffer) {
         id = buyOffer.getID();
@@ -25,5 +26,6 @@ public class UserBuyOfferResDTO {
         startAmount = buyOffer.getStartAmount();
         price = buyOffer.getMaxPrice();
         date = buyOffer.getDate();
+        isValid = buyOffer.getIsValid();
     }
 }

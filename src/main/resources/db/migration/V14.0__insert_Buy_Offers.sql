@@ -20,7 +20,6 @@ INSERT INTO buy_offers(
 
 
 
-
 INSERT INTO buy_offers(
 	resource_id, amount, max_price, date, is_valid, start_amount)
 	VALUES ( 2, 10, 13.02, '2019-11-14T10:00:00.000+02:00',FALSE, 500);
@@ -41,3 +40,28 @@ INSERT INTO buy_offers(
 	resource_id, amount, max_price, date, is_valid, start_amount)
 	VALUES ( 2, 200, 13.00, '2019-11-14T04:00:00.00+02:00',FALSE, 500);
 
+
+
+INSERT INTO buy_offers(
+	resource_id, amount, max_price, date, is_valid, start_amount)
+	VALUES ( 7, 10, 13.02, '2019-11-14T10:00:00.000+02:00',FALSE, 500);
+
+INSERT INTO buy_offers(
+	resource_id, amount, max_price, date, is_valid, start_amount)
+	VALUES ( 3, 23, 12.00, '2019-11-13T09:45:00.520+02:00,',FALSE, 500);
+
+INSERT INTO buy_offers(
+	resource_id, amount, max_price, date, is_valid, start_amount)
+	VALUES ( 11, 64, 14.21, '2019-11-13T07:00:00.005+02:00',TRUE, 500);
+
+INSERT INTO buy_offers(
+	resource_id, amount, max_price, date, is_valid, start_amount)
+	VALUES ( 12, 50, 14.10, '2019-11-14T12:42:00.000+02:00',TRUE, 500);
+
+INSERT INTO buy_offers(
+	resource_id, amount, max_price, date, is_valid, start_amount)
+	VALUES ( 12, 50, 14.10, '2019-11-14T12:42:00.000+02:00',TRUE, 500);
+
+INSERT INTO buy_offers(
+	resource_id, amount, max_price, date, is_valid, start_amount)
+	VALUES ( 17, 200, 13.00, '2019-11-14T04:00:00.00+02:00',FALSE, 500);
