@@ -1,9 +1,7 @@
 package AI.dtapijava.DTOs.Response;
 
 import AI.dtapijava.Entities.Company;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class CompanyNewResDTO {

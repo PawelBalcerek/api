@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BuyOfferRepository  extends JpaRepository<BuyOffer, Integer> {
+public interface BuyOfferRepository extends JpaRepository<BuyOffer, Integer> {
 
-    List<BuyOffer> findByIsValid (Boolean valid);
+    List<BuyOffer> findByIsValid(Boolean valid);
 
     Optional<BuyOffer> findById(Integer id);
 

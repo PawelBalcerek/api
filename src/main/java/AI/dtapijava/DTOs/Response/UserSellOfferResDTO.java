@@ -1,6 +1,5 @@
 package AI.dtapijava.DTOs.Response;
 
-import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.SellOffer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

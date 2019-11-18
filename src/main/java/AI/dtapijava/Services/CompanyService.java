@@ -17,11 +17,9 @@ import AI.dtapijava.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Tuple;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyService {
@@ -32,18 +30,18 @@ public class CompanyService {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public ExecTimeResDTO createCompany(CompanyCreateReqDTO companyCreateReqDTO){
+    public ExecTimeResDTO createCompany(CompanyCreateReqDTO companyCreateReqDTO) {
         ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
         //TODO sprawdzić, czy firma o takiej nazwie istnieje w bazie (czy mogą być dwie firmy o tej samej nazwie?)
         execDetailsHelper.setStartDbTime(OffsetDateTime.now());
         User owner = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()-> new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execDetailsHelper.addNewDbTime();
-            Company company = new Company();
-            company.setName(companyCreateReqDTO.getName());
+        Company company = new Company();
+        company.setName(companyCreateReqDTO.getName());
 
-            Resource resource = Resource.builder().company(company).amount(companyCreateReqDTO.getResourcesAmount())
-                                .user(owner).build();
+        Resource resource = Resource.builder().company(company).amount(companyCreateReqDTO.getResourcesAmount())
+                .user(owner).build();
 
         execDetailsHelper.setStartDbTime(OffsetDateTime.now());
         resourceRepository.save(resource);
@@ -67,7 +65,7 @@ public class CompanyService {
         List<CompanyNewResDTO> companies = companyRepository.getAllCompanies();
         List<CompanyNewResDTO> companiesOther = companyRepository.getOtherCompanies();
         execHelper.addNewDbTime();
-        List<CompanyNewResDTO> allCompanies = new ArrayList<>(companies.size()+companiesOther.size());
+        List<CompanyNewResDTO> allCompanies = new ArrayList<>(companies.size() + companiesOther.size());
         allCompanies.addAll(companies);
         allCompanies.addAll(companiesOther);
 

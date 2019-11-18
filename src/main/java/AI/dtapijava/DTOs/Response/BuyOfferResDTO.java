@@ -21,7 +21,7 @@ public class BuyOfferResDTO {
     private Boolean isValid;
     private Integer startAmount;
 
-    public BuyOfferResDTO (BuyOffer buyOffer) {
+    public BuyOfferResDTO(BuyOffer buyOffer) {
         this.id = buyOffer.getID();
         this.amount = buyOffer.getAmount();
         this.maxPrice = buyOffer.getMaxPrice();

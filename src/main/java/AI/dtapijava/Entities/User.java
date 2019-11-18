@@ -2,9 +2,7 @@ package AI.dtapijava.Entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true,name="ID", nullable = false)
+    @Column(unique = true, name = "ID", nullable = false)
     private Integer id;
 
     @Column(nullable = false)

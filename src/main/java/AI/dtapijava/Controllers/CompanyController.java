@@ -2,7 +2,6 @@ package AI.dtapijava.Controllers;
 
 import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
 import AI.dtapijava.DTOs.Response.CompanyInfoResDTO;
-import AI.dtapijava.DTOs.Response.CompanyNewResDTO;
 import AI.dtapijava.DTOs.Response.CompanyResDTO;
 import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
 import AI.dtapijava.Services.CompanyService;
@@ -11,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -22,8 +19,9 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping("/companies")
-    public ResponseEntity<ExecTimeResDTO> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO){            ;
-            return ResponseEntity.ok(companyService.createCompany(companyCreateReqDTO));
+    public ResponseEntity<ExecTimeResDTO> createCompany(@Valid @RequestBody CompanyCreateReqDTO companyCreateReqDTO) {
+        ;
+        return ResponseEntity.ok(companyService.createCompany(companyCreateReqDTO));
     }
 
     @GetMapping("/companies/{id}")

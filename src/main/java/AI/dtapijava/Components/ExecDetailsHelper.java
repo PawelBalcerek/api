@@ -18,31 +18,31 @@ public class ExecDetailsHelper {
     private OffsetDateTime startExecTime;
     private OffsetDateTime startDbTime;
 
-    public ExecDetailsHelper(){
+    public ExecDetailsHelper() {
         this.execTime = 0;
         this.dbTime = 0;
         this.startExecTime = OffsetDateTime.now();
     }
 
-    public Integer getExecTimeWithEndExecTime(OffsetDateTime endExecTime){
+    public Integer getExecTimeWithEndExecTime(OffsetDateTime endExecTime) {
         this.execTime = Duration.between(this.startExecTime, endExecTime).getNano();
         return this.execTime;
     }
 
-    public Integer getExecTime(){
+    public Integer getExecTime() {
         this.execTime = Duration.between(this.startExecTime, OffsetDateTime.now()).getNano();
         return this.execTime;
     }
 
-    public void addNewDbTime(OffsetDateTime offsetDateTime){
-        if(this.startDbTime!=null)
+    public void addNewDbTime(OffsetDateTime offsetDateTime) {
+        if (this.startDbTime != null)
             this.dbTime += Duration.between(this.startDbTime, offsetDateTime).getNano();
         this.startDbTime = null;
     }
-    public void addNewDbTime(){
+
+    public void addNewDbTime() {
         this.addNewDbTime(OffsetDateTime.now());
     }
-
 
 
 }

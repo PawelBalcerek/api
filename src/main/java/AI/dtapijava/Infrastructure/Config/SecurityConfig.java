@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-                http
+        http
                 .cors()
                 .and()
                 .csrf()
@@ -80,13 +80,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/swagger-resources/configuration/ui").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/login/**").permitAll()
-                 .antMatchers(HttpMethod.POST,"/api/users/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
 
 
 }

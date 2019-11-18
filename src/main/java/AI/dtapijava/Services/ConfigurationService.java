@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 @Service
 public class ConfigurationService {
@@ -18,13 +17,13 @@ public class ConfigurationService {
     @Autowired
     private ConfigurationRepository configurationRepository;
 
-    public ExecTimeResDTO setConfiguration(ConfigurationReqDTO configurationReqDTO){
+    public ExecTimeResDTO setConfiguration(ConfigurationReqDTO configurationReqDTO) {
         ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
 
         execDetailsHelper.setStartDbTime(OffsetDateTime.now());
         Configuration configuration = configurationRepository.findById(configurationReqDTO.getName())
                 .orElse(new Configuration(
-                        configurationReqDTO.getName(),configurationReqDTO.getValue()
+                        configurationReqDTO.getName(), configurationReqDTO.getValue()
                 ));
         execDetailsHelper.addNewDbTime();
         configuration.setNumber(configurationReqDTO.getValue());

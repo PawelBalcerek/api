@@ -9,10 +9,12 @@ public class ForwardController {
     public String forwarda() {
         return "forward:/dt-app/index.html";
     }
+
     @RequestMapping("/dt-app/")
     public String forwardb() {
         return "forward:/dt-app/index.html";
     }
+
     @RequestMapping("/dt-app/{path:[^\\.]+}/**")
     public String forwardc() {
         return "forward:/dt-app/index.html";

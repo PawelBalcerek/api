@@ -2,7 +2,6 @@ package AI.dtapijava.Services;
 
 
 import AI.dtapijava.Entities.*;
-import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +27,7 @@ public class TradeService {
     @Autowired
     private ResourceRepository resourceRepository;
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
     private synchronized void startInnerThread(int companyId) {
         Configuration tableSizeConf = configurationRepository.findById("tableSize").orElse(new Configuration("tableSize", 5));
@@ -55,16 +54,15 @@ public class TradeService {
                                 .date(OffsetDateTime.now())
                                 .price(sellOffers.get(indexSell).getPrice())
                                 .build();
-                        sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount()-transactionAmount);
-                        buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount()-transactionAmount);
+                        sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount() - transactionAmount);
+                        buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount() - transactionAmount);
                         updateResourceforSellOfferId(sellOffers.get(indexSell).getResource().getID(), transactionAmount, transaction.getPrice());
                         updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice(), buyOffers.get(indexBuy).getMaxPrice());
                         sellOfferRepository.save(sellOffers.get(indexSell));
                         buyOfferRepository.save(buyOffers.get(indexBuy));
                         transactionRepository.save(transaction);
                         ++indexSell;
-                    }
-                    else if (amountToBuy < amountToSell) {
+                    } else if (amountToBuy < amountToSell) {
                         int transactionAmount = amountToBuy;
                         Transaction transaction = Transaction.builder()
                                 .amount(transactionAmount)
@@ -73,16 +71,15 @@ public class TradeService {
                                 .date(OffsetDateTime.now())
                                 .price(sellOffers.get(indexSell).getPrice())
                                 .build();
-                        sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount()-transactionAmount);
-                        buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount()-transactionAmount);
+                        sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount() - transactionAmount);
+                        buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount() - transactionAmount);
                         updateResourceforSellOfferId(sellOffers.get(indexSell).getResource().getID(), transactionAmount, transaction.getPrice());
                         updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice(), buyOffers.get(indexBuy).getMaxPrice());
                         sellOfferRepository.save(sellOffers.get(indexSell));
                         buyOfferRepository.save(buyOffers.get(indexBuy));
                         transactionRepository.save(transaction);
                         ++indexBuy;
-                    }
-                    else {
+                    } else {
                         int transactionAmount = amountToBuy;
                         Transaction transaction = Transaction.builder()
                                 .amount(transactionAmount)
@@ -91,8 +88,8 @@ public class TradeService {
                                 .date(OffsetDateTime.now())
                                 .price(sellOffers.get(indexSell).getPrice())
                                 .build();
-                        sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount()-transactionAmount);
-                        buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount()-transactionAmount);
+                        sellOffers.get(indexSell).setAmount(sellOffers.get(indexSell).getAmount() - transactionAmount);
+                        buyOffers.get(indexBuy).setAmount(buyOffers.get(indexBuy).getAmount() - transactionAmount);
                         updateResourceforSellOfferId(sellOffers.get(indexSell).getResource().getID(), transactionAmount, transaction.getPrice());
                         updateResourceforBuyOfferId(buyOffers.get(indexBuy).getResource().getID(), transactionAmount, transaction.getPrice(), buyOffers.get(indexBuy).getMaxPrice());
                         sellOfferRepository.save(sellOffers.get(indexSell));
@@ -101,8 +98,7 @@ public class TradeService {
                         ++indexBuy;
                         ++indexSell;
                     }
-                }
-                else break;
+                } else break;
             }
         }
     }
@@ -119,7 +115,7 @@ public class TradeService {
     private void updateResourceforSellOfferId(int resourceId, int amount, double cash) {
         Resource resource = resourceRepository.getOne(resourceId);
         User user = resource.getUser();
-        user.setCash(user.getCash() + amount*cash);
+        user.setCash(user.getCash() + amount * cash);
         resource.setUser(user);
         resourceRepository.save(resource);
     }
@@ -127,7 +123,7 @@ public class TradeService {
     private void updateResourceforBuyOfferId(int resourceId, int amount, double transactionPrice, double buyOfferPrice) {
         Resource resource = resourceRepository.getOne(resourceId);
         User user = resource.getUser();
-        user.setCash(user.getCash() + amount*(buyOfferPrice-transactionPrice));
+        user.setCash(user.getCash() + amount * (buyOfferPrice - transactionPrice));
         resource.setUser(user);
         resourceRepository.save(resource);
     }

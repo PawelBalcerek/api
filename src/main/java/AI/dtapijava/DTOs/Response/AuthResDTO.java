@@ -11,12 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthResDTO {
-//    private Integer id;
+    //    private Integer id;
 //    private String name;
 //    private String email;
     private String jwt;
     private ExecDetailsResDTO execDetails;
-
 
 
 //    public AuthResDTO(User user){
@@ -29,10 +28,11 @@ public class AuthResDTO {
         //this(user);
         this.jwt = jwtAuthRes.getAccessToken();
     }
-    public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user,Integer dbTime,Integer execTime) {
+
+    public AuthResDTO(JwtAuthResDTO jwtAuthRes, User user, Integer dbTime, Integer execTime) {
         //this(user);
         this.jwt = jwtAuthRes.getAccessToken();
-        this.execDetails = new ExecDetailsResDTO(dbTime,execTime);
+        this.execDetails = new ExecDetailsResDTO(dbTime, execTime);
     }
 
 }

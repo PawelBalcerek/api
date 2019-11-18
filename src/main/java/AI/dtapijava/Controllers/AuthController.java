@@ -25,20 +25,15 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResDTO> signin(@Valid @RequestBody AuthReqDTO authReqDTO){
-          return ResponseEntity.ok(authService.getSigninCredential(authReqDTO));
+    public ResponseEntity<AuthResDTO> signin(@Valid @RequestBody AuthReqDTO authReqDTO) {
+        return ResponseEntity.ok(authService.getSigninCredential(authReqDTO));
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<ExecTimeResDTO> logout(){
+    public ResponseEntity<ExecTimeResDTO> logout() {
         log.debug("User by id: {} logout", UserUtils.getCurrentUserId());
         return ResponseEntity.ok(authService.logout());
     }
-
-
-
-
-
 
 
 }

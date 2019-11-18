@@ -14,9 +14,9 @@ public class UserFullResDTO {
     private UserResDTO user;
     private ExecDetailsResDTO execDetails;
 
-    public UserFullResDTO(User user, Integer dbTime, Integer execTime){
+    public UserFullResDTO(User user, Integer dbTime, Integer execTime) {
         this.user = new UserResDTO(user);
-        this.execDetails = new ExecDetailsResDTO(dbTime,execTime);
+        this.execDetails = new ExecDetailsResDTO(dbTime, execTime);
     }
 
 }

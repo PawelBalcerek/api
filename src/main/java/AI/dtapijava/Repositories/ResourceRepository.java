@@ -15,14 +15,14 @@ import java.util.Optional;
 public interface ResourceRepository extends JpaRepository<Resource, Integer> {
 
     @Query("SELECT r FROM Resource r " +
-           "INNER JOIN User u ON r.user = u " +
-           "INNER JOIN Company c ON r.company = c "+
-           "WHERE u.id = :user")
+            "INNER JOIN User u ON r.user = u " +
+            "INNER JOIN Company c ON r.company = c " +
+            "WHERE u.id = :user")
     List<Resource> getAllResourcesFromUser(@Param("user") Integer user);
 
     @Query("SELECT r FROM Resource r " +
             "INNER JOIN User u ON r.user = u " +
-            "INNER JOIN Company c ON r.company = c "+
+            "INNER JOIN Company c ON r.company = c " +
             "WHERE c.id = :company")
     List<Resource> getAllResourcesFromCompany(@Param("company") Integer company);
 

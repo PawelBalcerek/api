@@ -18,9 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Service
@@ -35,12 +32,12 @@ public class AuthService {
     private UserRepository userRepository;
 
 
-    public AuthResDTO getSigninCredential(AuthReqDTO authReqDTO){
+    public AuthResDTO getSigninCredential(AuthReqDTO authReqDTO) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
         log.debug("Try login by user {}", authReqDTO.getEmail());
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(authReqDTO.getEmail(),authReqDTO.getPassword());
+                new UsernamePasswordAuthenticationToken(authReqDTO.getEmail(), authReqDTO.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.generateToken(authentication);
@@ -49,12 +46,12 @@ public class AuthService {
                 ((LoginPrincipal) authentication.getPrincipal()).getUser(),
                 null,
                 execHelper.getExecTimeWithEndExecTime(OffsetDateTime.now())
-                );
+        );
     }
 
-    public ExecTimeResDTO logout(){
+    public ExecTimeResDTO logout() {
         ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
-        return new ExecTimeResDTO(new ExecDetailsResDTO(0,execDetailsHelper.getExecTime()));
+        return new ExecTimeResDTO(new ExecDetailsResDTO(0, execDetailsHelper.getExecTime()));
     }
 
 }

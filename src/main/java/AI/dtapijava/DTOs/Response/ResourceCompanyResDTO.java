@@ -12,7 +12,7 @@ public class ResourceCompanyResDTO {
     long id;
     String name;
 
-    public ResourceCompanyResDTO(Company company){
+    public ResourceCompanyResDTO(Company company) {
         id = company.getID();
         name = company.getName();
     }

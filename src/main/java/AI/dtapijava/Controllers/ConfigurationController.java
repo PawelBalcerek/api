@@ -17,7 +17,7 @@ public class ConfigurationController {
     private ConfigurationService configurationService;
 
     @PutMapping("/configurations")
-    public ResponseEntity<ExecTimeResDTO> setConfiguration(@RequestBody ConfigurationReqDTO configurationReqDTO){
+    public ResponseEntity<ExecTimeResDTO> setConfiguration(@RequestBody ConfigurationReqDTO configurationReqDTO) {
         return ResponseEntity.ok(configurationService.setConfiguration(configurationReqDTO));
     }
 
