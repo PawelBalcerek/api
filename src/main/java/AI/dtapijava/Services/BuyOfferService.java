@@ -32,6 +32,8 @@ public class BuyOfferService {
     private UserRepository userRepository;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private TradeService tradeService;
 
     public BuyOfferExtResDTO getBuyOffer (int id) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
@@ -97,8 +99,11 @@ public class BuyOfferService {
                 .maxPrice(addBuyOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
+        user.setCash(user.getCash()-(buyOffer.getStartAmount()*buyOffer.getMaxPrice()));
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
+
+        tradeService.startThread(buyOffer.getResource().getCompany().getID());
 
         return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
     }
@@ -111,6 +116,7 @@ public class BuyOfferService {
         execHelper.addNewDbTime();
         buyOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
+        buyOffer.getResource().getUser().setCash(buyOffer.getResource().getUser().getCash()+(buyOffer.getStartAmount()-buyOffer.getAmount())*buyOffer.getMaxPrice());
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
 
