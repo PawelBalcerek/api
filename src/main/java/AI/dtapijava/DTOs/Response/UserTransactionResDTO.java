@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 @Getter
 @AllArgsConstructor
 public class UserTransactionResDTO {
-    private long id;
+    private int id;
     private ResourceCompanyResDTO company;
     private int amount;
     private double price;

@@ -29,7 +29,7 @@ public class JwtTokenProvider {
         LoginPrincipal loginPrincipal = (LoginPrincipal) authentication.getPrincipal();
 
         long now = (new Date()).getTime();
-        Date expiryDate= new Date(now + this.tokenValidity);
+        Date expiryDate = new Date(now + this.tokenValidity);
 
         return Jwts.builder()
                 .setSubject(Long.toString(loginPrincipal.getUser().getId()))
@@ -69,8 +69,6 @@ public class JwtTokenProvider {
         }
         return false;
     }
-
-
 
 
 }

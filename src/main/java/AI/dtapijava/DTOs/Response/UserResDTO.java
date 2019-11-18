@@ -17,7 +17,7 @@ public class UserResDTO {
     private String email;
     private Double cash;
 
-    public UserResDTO(User user){
+    public UserResDTO(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();

@@ -35,7 +35,7 @@ public class LoginPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-       return true;
+        return true;
     }
 
     @Override
@@ -49,7 +49,9 @@ public class LoginPrincipal implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() {return true;}
+    public boolean isEnabled() {
+        return true;
+    }
 
     @Override
     public boolean equals(Object o) {

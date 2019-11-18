@@ -15,7 +15,7 @@ public class UserResourceResDTO {
 
     public UserResourceResDTO(Resource resource) {
         id = resource.getID();
-        amount=resource.getAmount();
+        amount = resource.getAmount();
         company = new ResourceCompanyResDTO(resource.getCompany());
     }
 }

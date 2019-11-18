@@ -3,10 +3,12 @@ package AI.dtapijava.Services;
 import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.AddSellOfferReqDTO;
 import AI.dtapijava.DTOs.Response.*;
-import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.SellOffer;
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.NotEnoughActionsException;
+import AI.dtapijava.Exceptions.ResourceNotFoundException;
+import AI.dtapijava.Exceptions.SellOfferNotFoundException;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.CompanyRepository;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,15 +32,17 @@ public class SellOfferService {
     private UserRepository userRepository;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private TradeService tradeService;
 
-    public SellOfferExtResDTO getSellOffer (int id){
+    public SellOfferExtResDTO getSellOffer(int id) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Sell offer not found"));
+        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new SellOfferNotFoundException("Sell offer not found"));
         execHelper.addNewDbTime();
 
-        return new SellOfferExtResDTO(new SellOfferResDTO(sellOffer), new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new SellOfferExtResDTO(new SellOfferResDTO(sellOffer), new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public SellOffersResDTO getSellOffers() {
@@ -50,10 +53,10 @@ public class SellOfferService {
         execHelper.addNewDbTime();
 
         List<SellOfferResDTO> sellOfferResDTOList = sellOffers.stream().map(SellOfferResDTO::new).collect(Collectors.toList());
-        return new SellOffersResDTO(sellOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new SellOffersResDTO(sellOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
-    public SellOffersResDTO getSellOffersValid (Boolean valid) {
+    public SellOffersResDTO getSellOffersValid(Boolean valid) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -61,18 +64,19 @@ public class SellOfferService {
         execHelper.addNewDbTime();
 
         List<SellOfferResDTO> sellOfferResDTOList = sellOffers.stream().map(SellOfferResDTO::new).collect(Collectors.toList());
-        return new SellOffersResDTO(sellOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new SellOffersResDTO(sellOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
-    public ExecTimeResDTO addSellOffer(AddSellOfferReqDTO addSellOfferReqDTO) {ExecDetailsHelper execHelper = new ExecDetailsHelper();
+    public ExecTimeResDTO addSellOffer(AddSellOfferReqDTO addSellOfferReqDTO) {
+        ExecDetailsHelper execHelper = new ExecDetailsHelper();
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
-        Resource resource = resourceRepository.findById(addSellOfferReqDTO.getResourceId()).orElseThrow(() -> new RuntimeException("Resource not found"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
+        Resource resource = resourceRepository.findById(addSellOfferReqDTO.getResourceId()).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         execHelper.addNewDbTime();
 
         if (resource.getAmount() < addSellOfferReqDTO.getAmount()) {
-            throw new RuntimeException("Not enough actions to sell");
+            throw new NotEnoughActionsException("Not enough actions to sell");
         }
 
         SellOffer sellOffer = SellOffer.builder()
@@ -84,23 +88,27 @@ public class SellOfferService {
                 .price(addSellOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
+        resource.setAmount(resource.getAmount() - sellOffer.getStartAmount());
         sellOfferRepository.save(sellOffer);
         execHelper.addNewDbTime();
 
-        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        tradeService.startThread(sellOffer.getResource().getCompany().getID());
+
+        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public ExecTimeResDTO withdrawSellOffer(int id) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Sell offer not found"));
+        SellOffer sellOffer = sellOfferRepository.findById(id).orElseThrow(() -> new SellOfferNotFoundException("Sell offer not found"));
         execHelper.addNewDbTime();
         sellOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
+        sellOffer.getResource().setAmount(sellOffer.getResource().getAmount() + sellOffer.getAmount());
         sellOfferRepository.save(sellOffer);
         execHelper.addNewDbTime();
 
-        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 }

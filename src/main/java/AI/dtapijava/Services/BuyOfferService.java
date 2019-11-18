@@ -8,7 +8,10 @@ import AI.dtapijava.Entities.BuyOffer;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.BuyOfferInvalidExceptions;
+import AI.dtapijava.Exceptions.CompanyNotExistException;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
+import AI.dtapijava.Exceptions.YouAreNotOwnerException;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.BuyOfferRepository;
 import AI.dtapijava.Repositories.CompanyRepository;
@@ -32,15 +35,17 @@ public class BuyOfferService {
     private UserRepository userRepository;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private TradeService tradeService;
 
-    public BuyOfferExtResDTO getBuyOffer (int id) {
+    public BuyOfferExtResDTO getBuyOffer(int id) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         BuyOffer buyOffer = buyOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Buy offer not found"));
         execHelper.addNewDbTime();
 
-        return new BuyOfferExtResDTO(new BuyOfferResDTO(buyOffer), new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new BuyOfferExtResDTO(new BuyOfferResDTO(buyOffer), new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public BuyOffersResDTO getBuyOffers() {
@@ -51,10 +56,10 @@ public class BuyOfferService {
         execHelper.addNewDbTime();
 
         List<BuyOfferResDTO> buyOfferResDTOList = buyOffers.stream().map(BuyOfferResDTO::new).collect(Collectors.toList());
-        return new BuyOffersResDTO(buyOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new BuyOffersResDTO(buyOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
-    public BuyOffersResDTO getBuyOffersValid (Boolean valid) {
+    public BuyOffersResDTO getBuyOffersValid(Boolean valid) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -62,17 +67,19 @@ public class BuyOfferService {
         execHelper.addNewDbTime();
 
         List<BuyOfferResDTO> buyOfferResDTOList = buyOffers.stream().map(BuyOfferResDTO::new).collect(Collectors.toList());
-        return new BuyOffersResDTO(buyOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new BuyOffersResDTO(buyOfferResDTOList, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public ExecTimeResDTO addBuyOffer(AddBuyOfferReqDTO addBuyOfferReqDTO) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        Company company = companyRepository.findById(addBuyOfferReqDTO.getCompanyId()).orElseThrow(() -> new RuntimeException("Company not found"));
+        Company company = companyRepository.findById(addBuyOfferReqDTO.getCompanyId())
+                .orElseThrow(() -> new CompanyNotExistException("Company not found"));
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         Optional<Resource> resource = resourceRepository.findByUserAndCompany(user, company);
+
         execHelper.addNewDbTime();
         if (resource.isEmpty()) {
             resource = Optional.of(Resource.builder()
@@ -97,23 +104,35 @@ public class BuyOfferService {
                 .maxPrice(addBuyOfferReqDTO.getPrice())
                 .build();
         execHelper.setStartDbTime(OffsetDateTime.now());
+        user.setCash(user.getCash() - (buyOffer.getStartAmount() * buyOffer.getMaxPrice()));
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
 
-        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        tradeService.startThread(buyOffer.getResource().getCompany().getID());
+
+        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public ExecTimeResDTO withdrawBuyOffer(int id) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        BuyOffer buyOffer = buyOfferRepository.findById(id).orElseThrow(() -> new RuntimeException("Buy offer not found"));
+        BuyOffer buyOffer = buyOfferRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotExistException("Buy offer not found"));
+
+
+        User user = userRepository.findById(UserUtils.getCurrentUserId())
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
+
+        if (!buyOffer.getResource().getUser().getId().equals(user.getId()))
+            throw new YouAreNotOwnerException("You are not owner of this offer!");
         buyOffer.setIsValid(false);
         execHelper.setStartDbTime(OffsetDateTime.now());
+        buyOffer.getResource().getUser().setCash(buyOffer.getResource().getUser().getCash() + (buyOffer.getStartAmount() - buyOffer.getAmount()) * buyOffer.getMaxPrice());
         buyOfferRepository.save(buyOffer);
         execHelper.addNewDbTime();
 
-        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 }

@@ -6,11 +6,11 @@ import AI.dtapijava.DTOs.Request.UserCreateReqDTO;
 import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Entities.*;
 import AI.dtapijava.Enums.TransactionType;
+import AI.dtapijava.Exceptions.EmailReadyExistException;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -39,7 +40,7 @@ public class UserService {
 
     public User getUser(int id) {
         return userRepository.findById(id)
-                .orElseThrow(()-> new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
     }
 
     public UsersFullResDTO getUsers() {
@@ -49,21 +50,21 @@ public class UserService {
         List<User> users = userRepository.findAll();
         execHelper.addNewDbTime(OffsetDateTime.now());
 
-        return new UsersFullResDTO(users,execHelper.getDbTime(),execHelper.getExecTime());
+        return new UsersFullResDTO(users, execHelper.getDbTime(), execHelper.getExecTime());
     }
 
-    public UserFullResDTO getActiveUser(){
+    public UserFullResDTO getActiveUser() {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
-        return new UserFullResDTO(user,execHelper.getDbTime(),execHelper.getExecTime());
+        return new UserFullResDTO(user, execHelper.getDbTime(), execHelper.getExecTime());
     }
 
-    public ExecTimeResDTO createUser(UserCreateReqDTO userCreateReqDTO){
+    public ExecTimeResDTO createUser(UserCreateReqDTO userCreateReqDTO) {
         ExecDetailsHelper execHelper = new ExecDetailsHelper();
 
         User user = User.builder()
@@ -74,14 +75,14 @@ public class UserService {
                 .build();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        if(userRepository.existsByNameOrEmail(userCreateReqDTO.getName(),userCreateReqDTO.getEmail())){
-            System.out.println("Rzuc wyjątek - użytkownik istnieje w azie ");
+        if (userRepository.existsByNameOrEmail(userCreateReqDTO.getName(), userCreateReqDTO.getEmail())) {
+            new EmailReadyExistException("Email already exists in database");
         }
 
         User newUser = userRepository.save(user);
         execHelper.addNewDbTime();
 
-        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(),execHelper.getExecTime()));
+        return new ExecTimeResDTO(new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
     public UserResourcesResDTO getActiveUserResources() {
@@ -89,7 +90,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -106,7 +107,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -123,7 +124,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -140,7 +141,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -154,6 +155,12 @@ public class UserService {
         for (Transaction tr : userBuyTransactions) {
             userTransactionsList.add(new UserTransactionResDTO(tr, TransactionType.BUY_OFFER));
         }
+
+        List <UserTransactionResDTO> list = Stream.concat(
+                userBuyTransactions.stream().map(t->new UserTransactionResDTO(t, TransactionType.BUY_OFFER)),
+                userSellTransactions.stream().map(t->new UserTransactionResDTO(t, TransactionType.SELL_OFFER))
+        ).collect(Collectors.toList());
+
         execHelper.addNewDbTime();
 
         //List<UserTransactionResDTO> userTrasactionsList = userTransactions.stream().map(UserTransactionResDTO::new).collect(Collectors.toList());
@@ -166,7 +173,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
@@ -183,7 +190,7 @@ public class UserService {
 
         execHelper.setStartDbTime(OffsetDateTime.now());
         User user = userRepository.findById(UserUtils.getCurrentUserId())
-                .orElseThrow(()->new UserNotFoundExceptions("User not found!"));
+                .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         execHelper.addNewDbTime();
 
         execHelper.setStartDbTime(OffsetDateTime.now());

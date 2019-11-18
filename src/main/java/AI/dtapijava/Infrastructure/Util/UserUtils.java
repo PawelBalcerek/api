@@ -9,28 +9,28 @@ import java.util.Optional;
 
 public final class UserUtils {
 
-    private UserUtils(){
+    private UserUtils() {
 
     }
 
-    public static Optional<String> getCurrentUserName(){
+    public static Optional<String> getCurrentUserName() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
-                .map(auth-> {
-                    if (auth.getPrincipal() instanceof LoginPrincipal){
-                        LoginPrincipal springUser =(LoginPrincipal) auth.getPrincipal();
+                .map(auth -> {
+                    if (auth.getPrincipal() instanceof LoginPrincipal) {
+                        LoginPrincipal springUser = (LoginPrincipal) auth.getPrincipal();
                         return springUser.getUser().getName();
-                    } else if (auth.getPrincipal() instanceof String){
+                    } else if (auth.getPrincipal() instanceof String) {
                         return (String) auth.getPrincipal();
                     }
                     return null;
                 });
     }
 
-    public static Optional<LoginPrincipal> getCurrentUser(){
+    public static Optional<LoginPrincipal> getCurrentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
-                .map(auth->{
+                .map(auth -> {
                     if (auth.getPrincipal() instanceof LoginPrincipal) {
                         return (LoginPrincipal) auth.getPrincipal();
                     }
@@ -38,13 +38,9 @@ public final class UserUtils {
                 });
     }
 
-    public static Integer getCurrentUserId(){
+    public static Integer getCurrentUserId() {
         return getCurrentUser().get().getUser().getId();
     }
-
-
-
-
 
 
 }

@@ -13,13 +13,15 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SellOfferResDTO {
+    private int id;
     private Integer amount;
     private Double price;
     private OffsetDateTime date;
     private Boolean isValid;
     private Integer startAmount;
 
-    public SellOfferResDTO (SellOffer sellOffer) {
+    public SellOfferResDTO(SellOffer sellOffer) {
+        this.id = sellOffer.getID();
         this.amount = sellOffer.getAmount();
         this.price = sellOffer.getPrice();
         this.date = sellOffer.getDate();

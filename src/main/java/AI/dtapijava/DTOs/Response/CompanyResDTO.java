@@ -1,15 +1,13 @@
 package AI.dtapijava.DTOs.Response;
 
 import AI.dtapijava.Entities.Company;
-import AI.dtapijava.Entities.Resource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyResDTO {

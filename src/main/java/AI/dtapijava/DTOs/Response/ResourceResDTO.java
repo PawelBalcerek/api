@@ -16,7 +16,7 @@ public class ResourceResDTO {
     private CompanyResDTO companyDTO;
     private Integer amount;
 
-    public ResourceResDTO(Resource resource){
+    public ResourceResDTO(Resource resource) {
         this.userDTO = new UserResDTO(resource.getUser());
         this.companyDTO = new CompanyResDTO(resource.getCompany());
         this.amount = resource.getAmount();

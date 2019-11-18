@@ -12,13 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.OffsetDateTime;
 
 @Service
+@Transactional
 public class DatabaseService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private CompanyRepository companyRepository;
 
-    @Transactional
+
     public ExecTimeResDTO cleanDatabase() {
         ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
 
