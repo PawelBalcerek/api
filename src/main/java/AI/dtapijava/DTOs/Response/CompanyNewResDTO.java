@@ -2,8 +2,10 @@ package AI.dtapijava.DTOs.Response;
 
 import AI.dtapijava.Entities.Company;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CompanyNewResDTO {
     //private ResourceCompanyResDTO company;
     private Integer id;

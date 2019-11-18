@@ -2,13 +2,11 @@ package AI.dtapijava.Services;
 
 import AI.dtapijava.Components.ExecDetailsHelper;
 import AI.dtapijava.DTOs.Request.CompanyCreateReqDTO;
-import AI.dtapijava.DTOs.Response.CompanyInfoResDTO;
-import AI.dtapijava.DTOs.Response.CompanyNewResDTO;
-import AI.dtapijava.DTOs.Response.ExecDetailsResDTO;
-import AI.dtapijava.DTOs.Response.ExecTimeResDTO;
+import AI.dtapijava.DTOs.Response.*;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.CompanyAlreadyExistsExceptions;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Infrastructure.Util.UserUtils;
 import AI.dtapijava.Repositories.CompanyRepository;
@@ -18,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -32,7 +30,9 @@ public class CompanyService {
 
     public ExecTimeResDTO createCompany(CompanyCreateReqDTO companyCreateReqDTO) {
         ExecDetailsHelper execDetailsHelper = new ExecDetailsHelper();
-        //TODO sprawdzić, czy firma o takiej nazwie istnieje w bazie (czy mogą być dwie firmy o tej samej nazwie?)
+
+        if(companyRepository.findByName(companyCreateReqDTO.getName()).isPresent())
+            throw new CompanyAlreadyExistsExceptions("Company already exists in database");
         execDetailsHelper.setStartDbTime(OffsetDateTime.now());
         User owner = userRepository.findById(UserUtils.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
@@ -64,12 +64,21 @@ public class CompanyService {
         execHelper.setStartDbTime(OffsetDateTime.now());
         List<CompanyNewResDTO> companies = companyRepository.getAllCompanies();
         List<CompanyNewResDTO> companiesOther = companyRepository.getOtherCompanies();
-        execHelper.addNewDbTime();
-        List<CompanyNewResDTO> allCompanies = new ArrayList<>(companies.size() + companiesOther.size());
-        allCompanies.addAll(companies);
-        allCompanies.addAll(companiesOther);
 
-        return new CompanyInfoResDTO(allCompanies, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
+        List<Company> _allCompanies = companyRepository.findAll();
+        List<CompanyNewResDTO> _allCompaniesDTO = _allCompanies.stream().map(CompanyNewResDTO::new).collect(Collectors.toList());
+        companies.forEach(c-> {
+
+            CompanyNewResDTO cmp = _allCompaniesDTO.stream().filter(a->a.getId().equals(c.getId())).findFirst().orElse(null);
+            if (cmp!=null){
+              cmp.setIndexPrice(c.getIndexPrice());
+            }
+             });
+
+        execHelper.addNewDbTime();
+
+
+        return new CompanyInfoResDTO(_allCompaniesDTO, new ExecDetailsResDTO(execHelper.getDbTime(), execHelper.getExecTime()));
     }
 
 }

@@ -14,7 +14,9 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     Optional<Company> findById(Integer id);
 
-    @Query("SELECT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c, t.price) from " +
+    Optional<Company> findByName(String name);
+
+    @Query("SELECT DISTINCT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c, t.price) from " +
             "Company c inner join Resource r on c = r.company " +
             "left join SellOffer s on r = s.resource " +
             "left join Transaction t on s = t.sellOffer " +
@@ -27,7 +29,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
             "order by c.id )")
     List<CompanyNewResDTO> getAllCompanies();
 
-    @Query("SELECT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c) from " +
+    @Query("SELECT DISTINCT new AI.dtapijava.DTOs.Response.CompanyNewResDTO(c) from " +
             "Company c inner join Resource r on c = r.company " +
             "left join SellOffer s on r = s.resource " +
             "WHERE s.resource IS NULL")

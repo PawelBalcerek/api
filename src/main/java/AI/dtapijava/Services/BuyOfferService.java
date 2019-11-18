@@ -8,6 +8,7 @@ import AI.dtapijava.Entities.BuyOffer;
 import AI.dtapijava.Entities.Company;
 import AI.dtapijava.Entities.Resource;
 import AI.dtapijava.Entities.User;
+import AI.dtapijava.Exceptions.BuyOfferInvalidExceptions;
 import AI.dtapijava.Exceptions.CompanyNotExistException;
 import AI.dtapijava.Exceptions.UserNotFoundExceptions;
 import AI.dtapijava.Exceptions.YouAreNotOwnerException;
@@ -78,6 +79,7 @@ public class BuyOfferService {
         User user = userRepository.findById(UserUtils.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundExceptions("User not found!"));
         Optional<Resource> resource = resourceRepository.findByUserAndCompany(user, company);
+
         execHelper.addNewDbTime();
         if (resource.isEmpty()) {
             resource = Optional.of(Resource.builder()
