@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class CompanyCreateReqDTO {
     private String name;
-    private int resourcesAmount;
+    private int resourceAmount;
 }
