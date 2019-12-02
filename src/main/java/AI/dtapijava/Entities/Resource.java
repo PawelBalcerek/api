@@ -2,6 +2,7 @@ package AI.dtapijava.Entities;
 
 
 import lombok.*;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(schema = "public", name = "resources")
+@Proxy(lazy = false)
 public class Resource {
 
     @Id
