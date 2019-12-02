@@ -19,4 +19,9 @@ public class ForwardController {
     public String forwardc() {
         return "forward:/dt-app/index.html";
     }
+
+    @RequestMapping("/")
+    public String forwardd() {
+        return "forward:/dt-app/index.html";
+    }
 }

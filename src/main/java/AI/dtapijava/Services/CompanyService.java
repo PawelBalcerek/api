@@ -40,7 +40,7 @@ public class CompanyService {
         Company company = new Company();
         company.setName(companyCreateReqDTO.getName());
 
-        Resource resource = Resource.builder().company(company).amount(companyCreateReqDTO.getResourcesAmount())
+        Resource resource = Resource.builder().company(company).amount(companyCreateReqDTO.getResourceAmount())
                 .user(owner).build();
 
         execDetailsHelper.setStartDbTime(OffsetDateTime.now());

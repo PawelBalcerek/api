@@ -75,8 +75,8 @@ public class UserService {
                 .build();
 
         execHelper.setStartDbTime(OffsetDateTime.now());
-        if (userRepository.existsByNameOrEmail(userCreateReqDTO.getName(), userCreateReqDTO.getEmail())) {
-            new EmailReadyExistException("Email already exists in database");
+        if (userRepository.existsByEmail(userCreateReqDTO.getEmail())) {
+           throw new EmailReadyExistException("Email already exists in database");
         }
 
         User newUser = userRepository.save(user);
