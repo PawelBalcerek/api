@@ -44,7 +44,7 @@ public class AuthService {
 
         return new AuthResDTO(new JwtAuthResDTO(jwt),
                 ((LoginPrincipal) authentication.getPrincipal()).getUser(),
-                null,
+                0,
                 execHelper.getExecTimeWithEndExecTime(OffsetDateTime.now())
         );
     }
