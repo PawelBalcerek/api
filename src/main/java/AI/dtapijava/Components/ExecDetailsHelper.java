@@ -25,18 +25,18 @@ public class ExecDetailsHelper {
     }
 
     public Integer getExecTimeWithEndExecTime(OffsetDateTime endExecTime) {
-        this.execTime = Duration.between(this.startExecTime, endExecTime).getNano()/1000;
+        this.execTime = Duration.between(this.startExecTime, endExecTime).getNano()/1000000;
         return this.execTime;
     }
 
     public Integer getExecTime() {
-        this.execTime = Duration.between(this.startExecTime, OffsetDateTime.now()).getNano()/1000;
+        this.execTime = Duration.between(this.startExecTime, OffsetDateTime.now()).getNano()/1000000;
         return this.execTime;
     }
 
     public void addNewDbTime(OffsetDateTime offsetDateTime) {
         if (this.startDbTime != null)
-            this.dbTime += Duration.between(this.startDbTime, offsetDateTime).getNano()/1000;
+            this.dbTime += Duration.between(this.startDbTime, offsetDateTime).getNano()/1000000;
         this.startDbTime = null;
     }
 
